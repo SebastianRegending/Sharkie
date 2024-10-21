@@ -1,0 +1,83 @@
+class MovableObject extends DrawableObject {
+    speed = 0.15;
+    otherDirection = false;
+    energy = 100;
+    lastHit = 0;
+    lastKeyPressed = 0;
+    itemCoins = 0;
+    itemBottles = 0;
+    offsetX = 50;
+    offsetY = 120; 
+
+    isColliding(movableObject) {
+        return (this.x + this.width - this.offsetX) >= movableObject.x && this.x <= (movableObject.x + movableObject.width) &&
+            (this.y + this.height) >= movableObject.y &&
+            (this.y + this.offsetY) <= (movableObject.y + movableObject.height)
+    }
+
+    hit() {
+        this.energy -= 1;
+        if (this.energy < 0) {
+            this.energy = 0;
+        } else {
+            this.lastHit = new Date().getTime();
+        }
+    }
+
+    collectCoins() {
+        this.itemCoins += 20;
+        if (this.itemCoins > 100) {
+            this.itemCoins = 100;
+        }
+}
+
+    collectBottles() {
+        this.itemBottles += 20;
+        if (this.itemBottles > 100) {
+            this.itemBottles = 100;
+        }
+    }
+
+    updateLastKeyPressed() {
+        this.lastKeyPressed = new Date().getTime();
+    }
+
+    timeSinceLastKeyPressed() {
+        let currentTime = new Date().getTime();
+        let timePassed = (currentTime - this.lastKeyPressed) / 1000;        
+        return timePassed;
+    }
+
+    isHurt() {
+        let timepassed = new Date().getTime() - this.lastHit;
+        timepassed = timepassed / 1000;
+        return timepassed < 1;
+    }
+
+    isDead() {
+        return this.energy == 0;
+    }  
+
+    moveRight() {
+        this.x += this.speed;
+    }
+
+    moveLeft() {
+        this.x -= this.speed;
+    }
+
+    moveUp() {
+        this.y -= this.speed;
+    }
+
+    moveDown() {
+        this.y += this.speed;
+    }
+
+    playAnimation(images) {
+        let i = this.currentImage % images.length;
+        let path = images[i];
+        this.img = this.imageCache[path];
+        this.currentImage++;
+}
+}
