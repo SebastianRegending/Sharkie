@@ -8,6 +8,7 @@ class World {
     statusBarHealth = new StatusbarHealth();
     statusBarCoins = new StatusbarCoins();
     statusBarPoison = new StatusbarPoison();
+    poisonBubbles = [new Bubbles()];
     background_sound = new Audio ('audio/backgroundmusic.mp3');
 
     constructor(canvas, keyboard) {
@@ -34,7 +35,7 @@ checkEnemyCollisions() {
                 this.character.hit();
                 this.statusBarHealth.setPercentageHealth(this.character.energy);
     }});
-    }, 1000);
+    }, 100);
 }
 
 checkCoinsCollisions() {
@@ -46,7 +47,7 @@ checkCoinsCollisions() {
                 this.level.coins.splice(index, 1);
             }   
         });
-    }, 1000);
+    }, 100);
 }
 
 checkPoisonBottlesCollisions() {
@@ -58,7 +59,7 @@ checkPoisonBottlesCollisions() {
             this.level.poisonBottles.splice(index, 1);
             }   
         });
-    }, 1000);
+    }, 100);
 }
 
 checkSlapAttackCollisions() {
@@ -68,17 +69,17 @@ checkSlapAttackCollisions() {
                     this.level.enemies.splice(index, 1);
             }
         });
-    }, 1000);
+    }, 100);
 }
 
 checkBubbleAttackCollisions() {
     setInterval(() => {
-        this.level.enemies.forEach((Endboss, index) => {
-            if(this.character.isColliding(Endboss) && this.keyboard.D) {                          
+        this.level.enemies.forEach((enemy, index) => {
+            if(this.character.isColliding(enemy) && this.keyboard.D && enemy instanceof Endboss) {                          
             this.level.enemies.splice(index, 1);
             }   
         });
-    }, 1000);
+    }, 100);
 }
 
 

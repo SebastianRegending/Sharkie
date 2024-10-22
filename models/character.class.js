@@ -95,14 +95,14 @@ class Character extends MovableObject{
     ];
 
     IMAGES_ATTACK_BUBBLE = [
-        'img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/1.png',
-        'img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/2.png',
-        'img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/3.png',
-        'img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/4.png',
-        'img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/5.png',
-        'img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/6.png',
-        'img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/7.png',
-        'img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/8.png'
+        'img/1.Sharkie/4.Attack/Bubble trap/For Whale/1.png',
+        'img/1.Sharkie/4.Attack/Bubble trap/For Whale/2.png',
+        'img/1.Sharkie/4.Attack/Bubble trap/For Whale/3.png',
+        'img/1.Sharkie/4.Attack/Bubble trap/For Whale/4.png',
+        'img/1.Sharkie/4.Attack/Bubble trap/For Whale/5.png',
+        'img/1.Sharkie/4.Attack/Bubble trap/For Whale/6.png',
+        'img/1.Sharkie/4.Attack/Bubble trap/For Whale/7.png',
+        'img/1.Sharkie/4.Attack/Bubble trap/For Whale/8.png'
     ];
 
     constructor() {
@@ -162,8 +162,8 @@ class Character extends MovableObject{
                     this.playAnimation(this.IMAGES_SWIMMING);
                     this.swimming_sound.play();               
                 }                
-            }}, 9500 / 60);  
-            
+            }}, 9500 / 60);              
+
             setInterval(() => {
                 if(this.world.keyboard.SPACE) {
                     this.playAnimation(this.IMAGES_ATTACK_SLAP);
@@ -171,6 +171,7 @@ class Character extends MovableObject{
                 }
                 if(this.world.keyboard.D) {
                     this.playAnimation(this.IMAGES_ATTACK_BUBBLE);
+
                 }
             }, 5000 / 60);
 
