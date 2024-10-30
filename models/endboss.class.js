@@ -1,4 +1,5 @@
 class Endboss extends MovableObject {
+    world;
     height = 400;
     width = 500;
     y = -30;
@@ -85,7 +86,7 @@ class Endboss extends MovableObject {
             }
         }, 150);
         setInterval(() => {
-            if (world.character.x > 2700 && this.hadFirstContact || world.level.enemies[0].x < 3000 && world.level.enemies[0].x > 500 ) {
+            if (world.character.x > 2700 && this.hadFirstContact || world.level.enemies.x < 3000 && world.level.enemies.x > 500 ) {
                 this.moveLeft();  
                 this.playAnimation(this.IMAGES_ATTACK);
             } else {

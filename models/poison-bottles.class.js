@@ -27,9 +27,4 @@ class PoisonBottles extends MovableObject {
             this.playAnimation(this.IMAGES_POISON_BOTTLES);
         }, 8000 / 60);
     }
-
-
-
-
-
 }

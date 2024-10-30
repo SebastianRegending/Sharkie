@@ -6,7 +6,7 @@ body {
     align-items: center;
     justify-content: center;
     font-family: LuckiestGuy;
-    background-image: url('/img/3.Background/underthesea.jpg');
+    background-image: url('./img/3.Background/underthesea.jpg');
     background-position: center;
     background-size: cover;
     opacity: 1;
@@ -14,7 +14,7 @@ body {
 
 @font-face {
     font-family: LuckiestGuy;
-    src: url('/fonts/LuckiestGuy-Regular.ttf');
+    src: url('./fonts/LuckiestGuy-Regular.ttf');
 }
 
 canvas {

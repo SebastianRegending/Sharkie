@@ -7,7 +7,9 @@ class MovableObject extends DrawableObject {
     itemCoins = 0;
     itemBottles = 0;
     offsetX = 50;
-    offsetY = 120; 
+    offsetY = 120;
+    speedX = 15;
+    acceleration = 14;
 
     isColliding(movableObject) {
         return (this.x + this.width - this.offsetX) >= movableObject.x && this.x <= (movableObject.x + movableObject.width) &&
@@ -16,7 +18,7 @@ class MovableObject extends DrawableObject {
     }
 
     hit() {
-        this.energy -= 1;
+        this.energy -= 20;
         if (this.energy < 0) {
             this.energy = 0;
         } else {
@@ -56,7 +58,17 @@ class MovableObject extends DrawableObject {
 
     isDead() {
         return this.energy == 0;
-    }  
+    }
+    
+    bubbleAcceleration() {
+        setInterval(() => {
+            this.x += this.speedX;
+            this.speedX -= this.acceleration;
+            if (this.speedX <= 0) {
+                this.speedX = 0;
+            }
+        }, 1000 / 25);
+    }
 
     moveRight() {
         this.x += this.speed;

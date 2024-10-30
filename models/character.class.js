@@ -5,7 +5,6 @@ class Character extends MovableObject{
     dead_sound = new Audio ('audio/dead.mp3');
     enemy_hit_sound = new Audio ('audio/hit.mp3');
     speed = 4;
-    idle = 0;
 
     IMAGES_SWIMMING = [
         'img/1.Sharkie/3.Swim/1.png',
@@ -160,7 +159,7 @@ class Character extends MovableObject{
                 } else {                
                 if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                     this.playAnimation(this.IMAGES_SWIMMING);
-                    this.swimming_sound.play();               
+                    this.swimming_sound.play();
                 }                
             }}, 9500 / 60);              
 
@@ -169,11 +168,13 @@ class Character extends MovableObject{
                     this.playAnimation(this.IMAGES_ATTACK_SLAP);
                     this.enemy_hit_sound.play();
                 }
-                if(this.world.keyboard.D) {
-                    this.playAnimation(this.IMAGES_ATTACK_BUBBLE);
+                // if(this.world.keyboard.D) {
+                //     this.playAnimation(this.IMAGES_ATTACK_BUBBLE);
+                //     this.throw();
+                //     this.checkThrowObject();
 
-                }
-            }, 5000 / 60);
+                // }
+            }, 5000 / 25);
 
 }
 }
