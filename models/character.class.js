@@ -142,8 +142,9 @@ class Character extends MovableObject{
                 this.world.camera_x = -this.x + 30;
             }, 1000 / 60);
 
+            const characterAnimationInterval =
             setInterval(() => {
-                if(this.timeSinceLastKeyPressed() >= 8) {
+                if(this.timeSinceLastKeyPressed() >= 10) {
                     this.playAnimation(this.IMAGES_LONG_IDLE);
                 } else {
                     this.playAnimation(this.IMAGES_IDLE);
@@ -152,13 +153,17 @@ class Character extends MovableObject{
                     this.swimming_sound.pause();
                     this.playAnimation(this.IMAGES_DEAD);
                     this.dead_sound.play();
+                    setTimeout(() => {
+                        clearInterval(characterAnimationInterval);
+                    }, 1500);
                 }
                  if (this.isHurt()) {
                     this.playAnimation(this.IMAGES_HURT_POISONED);
                     this.hurt_sound.play();
                 } else {                
-                if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
                     this.playAnimation(this.IMAGES_SWIMMING);
+                    this.updateLastKeyPressed();
                     this.swimming_sound.play();
                 }                
             }}, 9500 / 60);              
@@ -166,15 +171,10 @@ class Character extends MovableObject{
             setInterval(() => {
                 if(this.world.keyboard.SPACE) {
                     this.playAnimation(this.IMAGES_ATTACK_SLAP);
+                    this.updateLastKeyPressed();
                     this.enemy_hit_sound.play();
                 }
-                // if(this.world.keyboard.D) {
-                //     this.playAnimation(this.IMAGES_ATTACK_BUBBLE);
-                //     this.throw();
-                //     this.checkThrowObject();
-
-                // }
-            }, 5000 / 25);
+            }, 1000 / 60);
 
 }
 }

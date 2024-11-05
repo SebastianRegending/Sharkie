@@ -8,6 +8,7 @@ class World {
     statusBarHealth = new StatusbarHealth();
     statusBarCoins = new StatusbarCoins();
     statusBarPoison = new StatusbarPoison();
+    endbossHealth = 100;
     throwableObjects = [];
     lastTimeThrowed = 0;
     background_sound = new Audio ('audio/backgroundmusic.mp3');
@@ -22,7 +23,6 @@ class World {
     this.checkCoinsCollisions();
     this.checkPoisonBottlesCollisions();
     this.checkSlapAttackCollisions();
-    this.checkBubbleAttackCollisions();
     this.checkThrowObject();
 }
 
@@ -55,49 +55,55 @@ checkCoinsCollisions() {
 checkPoisonBottlesCollisions() {
     setInterval(() => {
         this.level.poisonBottles.forEach((bottle, index) => {
-            if(this.character.isColliding(bottle)) {                          
-            this.character.collectBottles();
-            this.statusBarPoison.setPercentagePoison(this.character.itemBottles);
-            this.level.poisonBottles.splice(index, 1);
-            }   
-        });
+            if(this.character.isColliding(bottle) && this.throwableObjects.length <= 4) {
+                this.character.collectBottles();
+                this.statusBarPoison.setPercentagePoison(this.character.itemBottles);
+                this.level.poisonBottles.splice(index, 1);
+                let bubble = new ThrowableObject();
+            this.throwableObjects.push(bubble);
+            }
+               });
     }, 100);
 }
 
 checkSlapAttackCollisions() {
-    setInterval(() => {
-        this.level.enemies.forEach((enemy, index) => {
-            if (this.character.isColliding(enemy) && this.keyboard.SPACE) {
-                console.log(enemy);                
-                    this.level.enemies.splice(index, 1);
+        setInterval(() => {
+        this.level.enemies.forEach((enemy, enemyIndex) => {
+            if (this.character.isColliding(enemy) && this.keyboard.SPACE) {  
+                if (enemy instanceof PufferFish) {
+                    this.level.enemies.splice(enemyIndex, 1);
+                }                    
+                if (enemy instanceof JellyFish) {
+                    this.level.enemies.splice(enemyIndex, 1);                    
+                }
             }
         });
     }, 100);
 }
 
-checkBubbleAttackCollisions() {
-    setInterval(() => {    
+checkBubbleAttackCollisions(bubble) {
+    const collisionCheckInterval = setInterval(() => {
+        let bubbleIndex = this.throwableObjects.indexOf(bubble);
+        if (bubbleIndex == -1) {
+            clearInterval(collisionCheckInterval);
+            return;
+        }
         this.level.enemies.forEach((enemy, enemyIndex) => {
-            this.throwableObjects.forEach((bubble, bubbleIndex) => {
-                if(bubble.isColliding(enemy)) {            
-                        if (enemy instanceof PufferFish) {
-                        console.log('Pufferfish');
-                        this.level.enemies.splice(enemyIndex, 1);
-                        this.throwableObjects.splice(bubbleIndex, 1);
-                    }                    
-                    if (enemy instanceof JellyFish) {
-                        console.log('Jellyfish');
-                        this.level.enemies.splice(enemyIndex, 1);
-                        this.throwableObjects.splice(bubbleIndex, 1);
-                    }                    
-                    if (enemy instanceof Endboss) {
-                        console.log('Endboss');
-                        this.level.enemies.splice(enemyIndex, 1);
-                        this.throwableObjects.splice(bubbleIndex, 1);
+            if (bubble.isColliding(enemy)) {                
+                if (enemy instanceof Endboss) {
+                    this.endbossHealth -= 20;
+                    this.throwableObjects.splice(bubbleIndex, 1);
+                    clearInterval(collisionCheckInterval);
+                    if (this.endbossHealth <= 0) {
+                    // this.level.enemies.splice(enemyIndex, 1);
                     }
-                }   
-            });
+                }
+            }
         });
+        if (bubble.x >= bubble.startPosition + 400) {
+            this.throwableObjects.splice(bubbleIndex, 1);
+            clearInterval(collisionCheckInterval);
+        }
     }, 100);
 }
 
@@ -105,19 +111,16 @@ checkThrowObject() {
     setInterval(() => {
         const currentTime = Date.now();
         if (this.keyboard.D && currentTime - this.lastTimeThrowed >= 1000) {
-            let bubble = new ThrowableObject(this.character.x +200, this.character.y +100);
-            this.throwableObjects.push(bubble);
-            bubble.startPosition = bubble.x;
-            lastTimeThrowed =  currentTime;
+            if (this.throwableObjects.length > 0) {
+                let bubble = this.throwableObjects[0];
+                bubble.x = this.character.x + 200;
+                bubble.y = this.character.y + 100;
+                bubble.startPosition = bubble.x;
+                this.lastTimeThrowed =  currentTime;       
+                this.checkBubbleAttackCollisions(bubble);
         }
-        this.throwableObjects.forEach((bubble, index) => {
-            if (bubble.x >= bubble.startPosition + 400) {
-                this.throwableObjects.splice(index, 1);
-            }
-        });        
-    }, 100);
+    }}, 100);
 }
-
 
 draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -128,11 +131,11 @@ draw() {
     this.addToMap(this.statusBarCoins);
     this.addToMap(this.statusBarPoison);
     this.ctx.translate(this.camera_x, 0);
-    this.addToMap(this.character);
-    this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.throwableObjects);
     this.addObjectsToMap(this.level.coins);
     this.addObjectsToMap(this.level.poisonBottles);
+    this.addObjectsToMap(this.level.enemies);
+    this.addToMap(this.character);
     this.ctx.translate(-this.camera_x, 0);
 
         let self = this;

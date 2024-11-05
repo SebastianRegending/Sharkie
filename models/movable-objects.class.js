@@ -11,10 +11,17 @@ class MovableObject extends DrawableObject {
     speedX = 15;
     acceleration = 14;
 
+    // isColliding(movableObject) {
+    //     return (this.x + this.width - this.offsetX) >= movableObject.x && this.x <= (movableObject.x + movableObject.width) &&
+    //         (this.y + this.height) >= movableObject.y &&
+    //         (this.y + this.offsetY) <= (movableObject.y + movableObject.height)
+    // }
+
     isColliding(movableObject) {
-        return (this.x + this.width - this.offsetX) >= movableObject.x && this.x <= (movableObject.x + movableObject.width) &&
-            (this.y + this.height) >= movableObject.y &&
-            (this.y + this.offsetY) <= (movableObject.y + movableObject.height)
+        return (this.x + this.width) >= movableObject.x &&
+               this.x <= (movableObject.x + movableObject.width) &&
+               (this.y + this.height) >= movableObject.y &&
+               this.y <= (movableObject.y + movableObject.height);
     }
 
     hit() {
