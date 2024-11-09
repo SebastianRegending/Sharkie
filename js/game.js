@@ -3,8 +3,11 @@ let world;
 let keyboard = new Keyboard();
 
 function init() {
-    canvas = document.getElementById('canvas');
-    world = new World(canvas, keyboard);
+  document.getElementById('startscreen').classList.add('d-none');
+  document.getElementById('canvas').classList.remove('d-none');
+  canvas = document.getElementById('canvas');
+  initLevel();
+  world = new World(canvas, keyboard);
 }
 
 
@@ -69,3 +72,13 @@ window.addEventListener('keydown', (event) => {
     },
     false,
   );
+
+  function muteAndUnmute() {
+    document.getElementById('sound-btn-volume').classList.toggle('d-none');
+    document.getElementById('sound-btn-mute').classList.toggle('d-none');
+  }
+  
+  function fullscreenAndBack() {
+    document.getElementById('fullscreen-btn-id').classList.toggle('d-none');
+    document.getElementById('minimize-btn-id').classList.toggle('d-none');
+  }

@@ -17,6 +17,7 @@ class ThrowableObject extends MovableObject {
 
     throw() {
         setInterval(() => {
+            // this.playAnimation(this.IMAGES_ATTACK_POISONED_BUBBLE);
             this.x += 25;
             if (this.speedX == 0) {
                 stopX = this.x;

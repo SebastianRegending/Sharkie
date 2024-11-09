@@ -8,7 +8,6 @@ class World {
     statusBarHealth = new StatusbarHealth();
     statusBarCoins = new StatusbarCoins();
     statusBarPoison = new StatusbarPoison();
-    endbossHealth = 100;
     throwableObjects = [];
     lastTimeThrowed = 0;
     background_sound = new Audio ('audio/backgroundmusic.mp3');
@@ -23,10 +22,10 @@ class World {
     this.checkCoinsCollisions();
     this.checkPoisonBottlesCollisions();
     this.checkSlapAttackCollisions();
-    this.checkThrowObject();
+    this.checkThrowObject();    
 }
 
-setWorld() {
+setWorld() {    
     this.character.world = this;
 }
 
@@ -91,7 +90,7 @@ checkBubbleAttackCollisions(bubble) {
         this.level.enemies.forEach((enemy, enemyIndex) => {
             if (bubble.isColliding(enemy)) {                
                 if (enemy instanceof Endboss) {
-                    this.endbossHealth -= 20;
+                    // this.character.hit();
                     this.throwableObjects.splice(bubbleIndex, 1);
                     clearInterval(collisionCheckInterval);
                     if (this.endbossHealth <= 0) {
@@ -137,6 +136,7 @@ draw() {
     this.addObjectsToMap(this.level.enemies);
     this.addToMap(this.character);
     this.ctx.translate(-this.camera_x, 0);
+    // this.background_sound.play();
 
         let self = this;
         requestAnimationFrame(function() {

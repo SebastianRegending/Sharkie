@@ -17,6 +17,10 @@ body {
     src: url('./fonts/LuckiestGuy-Regular.ttf');
 }
 
+.d-none {
+    display: none !important;
+}
+
 canvas {
     background-color: black;
     border-radius: 5px;
@@ -28,4 +32,109 @@ h1 {
     margin: 0 0 24px 0;
     text-shadow: 0px 0px 10px white;
     color: darkblue;
+}
+
+#startscreen {
+    width: 720px;
+    height: 480px;
+    border-radius: 5px;
+    border: 2px solid white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-image: url('./img/sharkiestartscreen.jpg');
+    background-size: cover;
+}
+
+.start-btn {
+    width: 140px;
+    height: 50px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FCEE21;
+    color: #1B1464;
+    font-size: 24px;
+    border-radius: 10px;
+    border: 2px solid white;
+    letter-spacing: 0px;
+    transition: all 0.25s ease-out;
+}
+
+.start-btn:hover {
+    text-shadow: 2px 2px 2px white;
+    transform: scale(1.1);
+    letter-spacing: 2px;
+}
+
+.button-icon:hover {
+    transform: scale(1.2);
+}
+
+.button-icon-minimize:hover {
+    transform: scale(0.8);
+}
+
+.game-informations {
+    width: 720px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin: 24px 0 0 0;
+}
+
+.fullscreen-btn {
+    width: 42px;
+    height: 42px;
+    background-color: #FCEE21;
+    border-radius: 10px;
+    border: 2px solid white;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.introductions {
+    width: 250px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #FCEE21;
+    color: #1B1464;
+    font-size: 24px;
+    border-radius: 10px;
+    border: 2px solid white;
+}
+
+.sound-btn {
+    width: 42px;
+    height: 42px;
+    background-color: #FCEE21;
+    border-radius: 10px;
+    border: 2px solid white;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-icon {
+    width: 32px;
+    height: 32px;
+    background-color: #FCEE21;
+    transition: transform 0.25s ease-out;
+}
+
+.button-icon-minimize {
+    width: 32px;
+    height: 32px;
+    background-color: #FCEE21;
+    transition: transform 0.25s ease-out;
 }
