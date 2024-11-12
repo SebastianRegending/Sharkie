@@ -27,6 +27,12 @@ class StatusbarPoison extends DrawableObject {
         this.img = this.imageCache[path];
     }
 
+    setPercentagePoisonBubbleShot(percentage) {
+        this.percentage = percentage;
+        let path = this.IMAGES_POISON_BOTTLE[this.resolveImageIndexTopToBottom()];
+        this.img = this.imageCache[path];
+    }
+
     resolveImageIndexBottomToTop() {
         if (this.percentage == 0) {
             return 0;

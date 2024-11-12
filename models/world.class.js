@@ -8,6 +8,7 @@ class World {
     statusBarHealth = new StatusbarHealth();
     statusBarCoins = new StatusbarCoins();
     statusBarPoison = new StatusbarPoison();
+    endboss = new Endboss();
     throwableObjects = [];
     lastTimeThrowed = 0;
     background_sound = new Audio ('audio/backgroundmusic.mp3');
@@ -22,7 +23,7 @@ class World {
     this.checkCoinsCollisions();
     this.checkPoisonBottlesCollisions();
     this.checkSlapAttackCollisions();
-    this.checkThrowObject();    
+    this.checkThrowObject();
 }
 
 setWorld() {    
@@ -90,17 +91,21 @@ checkBubbleAttackCollisions(bubble) {
         this.level.enemies.forEach((enemy, enemyIndex) => {
             if (bubble.isColliding(enemy)) {                
                 if (enemy instanceof Endboss) {
-                    // this.character.hit();
+                    this.endboss.hit();
+                    this.character.shotPoisonBubble();
+                    this.statusBarPoison.setPercentagePoisonBubbleShot(this.character.itemBottles);
                     this.throwableObjects.splice(bubbleIndex, 1);
                     clearInterval(collisionCheckInterval);
                     if (this.endbossHealth <= 0) {
-                    // this.level.enemies.splice(enemyIndex, 1);
+                        this.level.enemies.splice(enemyIndex, 1);
                     }
                 }
             }
         });
         if (bubble.x >= bubble.startPosition + 400) {
             this.throwableObjects.splice(bubbleIndex, 1);
+            this.character.shotPoisonBubble();
+            this.statusBarPoison.setPercentagePoisonBubbleShot(this.character.itemBottles);
             clearInterval(collisionCheckInterval);
         }
     }, 100);
@@ -136,7 +141,9 @@ draw() {
     this.addObjectsToMap(this.level.enemies);
     this.addToMap(this.character);
     this.ctx.translate(-this.camera_x, 0);
-    // this.background_sound.play();
+    if (!muted) {
+        this.background_sound.play();        
+    }
 
         let self = this;
         requestAnimationFrame(function() {

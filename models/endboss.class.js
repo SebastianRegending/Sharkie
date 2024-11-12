@@ -1,8 +1,8 @@
 class Endboss extends MovableObject {
-    world;
     height = 400;
     width = 500;
     y = -30;
+    percentage = 100;
     hadFirstContact = false;
 
     IMAGES_INTRO = [
@@ -71,20 +71,20 @@ class Endboss extends MovableObject {
     }
 
     animate() {
-        let i = 0;
-        setInterval(() => {
-            if (i < 10) {
-                this.playAnimation(this.IMAGES_INTRO);
-            } else {
-                this.playAnimation(this.IMAGES_IDLE);
-            }
-            i++;            
+        // let i = 0;
+        // setInterval(() => {
+        //     if (i < 10) {
+        //         this.playAnimation(this.IMAGES_INTRO);
+        //     } else {
+        //         this.playAnimation(this.IMAGES_IDLE);
+        //     }
+        //     i++;            
             // if (world.character.x > 2400 && !this.hadFirstContact) {
             //     i = 0;
             //     this.hadFirstContact = true;
                 
             // }
-        }, 150);
+        // }, 150);
         setInterval(() => {
             // if (world.character.x > 2500 && this.hadFirstContact || world.level.enemies.x < 3000 && world.level.enemies.x > 500) {
             //     this.moveLeft();
@@ -92,10 +92,36 @@ class Endboss extends MovableObject {
             // } else {
                 this.playAnimation(this.IMAGES_IDLE);
             // }
+            if (this.isHurt()) {
+                this.playAnimation(this.IMAGES_HURT);
+            }
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
+                // this.level.enemies.splice(enemyIndex, 1);
             }
         }, 7000 / 60);
     }
+
+    setPercentageEndboss(percentage) {
+        this.percentage = percentage;
+        let path = this.IMAGES_POISON_BOTTLE[this.resolveImageIndexBottomToTop()];
+        this.img = this.imageCache[path];
+    }
     
+    resolveImageIndexTopToBottom() {
+        if (this.percentage == 100) {
+            return 5;
+        } else if (this.percentage == 80) {
+            return 4;
+        } else if (this.percentage == 60) {
+            return 3;
+        } else if (this.percentage == 40) {
+            return 2;
+        } else if (this.percentage == 20) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
 }

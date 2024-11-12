@@ -33,12 +33,14 @@
             <span>Start</span>
         </div>
     </div>
+    <div id="fullscreen">
     <canvas id="canvas" width="720" height="480" allow="autoplay" class="d-none">
+        <img id="minimize-btn-id" class="button-icon-minimize d-none" src="./img/6.Botones/Full Screen/minimize.png" alt="minimize" onclick="fullscreen()">
     </canvas>
+    </div>
     <div class="game-informations">
         <div class="fullscreen-btn">
-            <img id="fullscreen-btn-id" class="button-icon" src="./img/6.Botones/Full Screen/fullscreen-btn.png" alt="fullscreen" onclick="fullscreenAndBack()">
-            <img id="minimize-btn-id" class="button-icon-minimize d-none" src="./img/6.Botones/Full Screen/minimize.png" alt="minimize" onclick="fullscreenAndBack()">
+            <img id="fullscreen-btn-id" class="button-icon" src="./img/6.Botones/Full Screen/fullscreen-btn.png" alt="fullscreen" onclick="fullscreen()">
         </div>
         <div class="introductions">
             <span>Swim - Arrow Keys</span>
@@ -46,8 +48,8 @@
             <span>Fin Slap - Space</span>
         </div>
         <div class="sound-btn">
-            <img  id="sound-btn-volume" class="button-icon" src="./img/volume.png" alt="volume" onclick="muteAndUnmute()">
-            <img  id="sound-btn-mute" class="button-icon d-none" src="./img/mute.png" alt="mute" onclick="muteAndUnmute()">
+            <img  id="sound-btn-volume" class="button-icon" src="./img/volume.png" alt="volume" onclick="muteGame()">
+            <img  id="sound-btn-mute" class="button-icon d-none" src="./img/mute.png" alt="mute" onclick="unmuteGame()">
         </div>
     </div>
         

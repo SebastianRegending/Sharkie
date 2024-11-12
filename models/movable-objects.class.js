@@ -33,6 +33,12 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    isHurt() {
+        let timepassed = new Date().getTime() - this.lastHit;
+        timepassed = timepassed / 1000;
+        return timepassed < 1;
+    }
+
     collectCoins() {
         this.itemCoins += 20;
         if (this.itemCoins > 100) {
@@ -47,6 +53,10 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    shotPoisonBubble() {
+        this.itemBottles = Math.max(0, this.itemBottles - 20);
+    }
+
     updateLastKeyPressed() {
         this.lastKeyPressed = new Date().getTime();
     }
@@ -57,11 +67,6 @@ class MovableObject extends DrawableObject {
         return timePassed;
     }
 
-    isHurt() {
-        let timepassed = new Date().getTime() - this.lastHit;
-        timepassed = timepassed / 1000;
-        return timepassed < 1;
-    }
 
     isDead() {
         return this.energy == 0;
