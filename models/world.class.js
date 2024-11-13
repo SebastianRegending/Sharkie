@@ -28,6 +28,7 @@ class World {
 
 setWorld() {    
     this.character.world = this;
+    this.endboss.world = this;
 }
 
 checkEnemyCollisions() {
@@ -91,14 +92,11 @@ checkBubbleAttackCollisions(bubble) {
         this.level.enemies.forEach((enemy, enemyIndex) => {
             if (bubble.isColliding(enemy)) {                
                 if (enemy instanceof Endboss) {
-                    this.endboss.hit();
                     this.character.shotPoisonBubble();
                     this.statusBarPoison.setPercentagePoisonBubbleShot(this.character.itemBottles);
                     this.throwableObjects.splice(bubbleIndex, 1);
+                    this.endboss.hit();
                     clearInterval(collisionCheckInterval);
-                    if (this.endbossHealth <= 0) {
-                        this.level.enemies.splice(enemyIndex, 1);
-                    }
                 }
             }
         });
@@ -140,6 +138,7 @@ draw() {
     this.addObjectsToMap(this.level.poisonBottles);
     this.addObjectsToMap(this.level.enemies);
     this.addToMap(this.character);
+    this.addToMap(this.endboss);
     this.ctx.translate(-this.camera_x, 0);
     if (!muted) {
         this.background_sound.play();        

@@ -1,4 +1,5 @@
 class Endboss extends MovableObject {
+    world;
     height = 400;
     width = 500;
     y = -30;
@@ -91,14 +92,14 @@ class Endboss extends MovableObject {
             //     this.playAnimation(this.IMAGES_ATTACK);
             // } else {
                 this.playAnimation(this.IMAGES_IDLE);
-            // }
-            if (this.isHurt()) {
-                this.playAnimation(this.IMAGES_HURT);
-            }
-            if (this.isDead()) {
-                this.playAnimation(this.IMAGES_DEAD);
-                // this.level.enemies.splice(enemyIndex, 1);
-            }
+                if (this.isDead()) {
+                    this.playAnimation(this.IMAGES_DEAD);
+                    return;
+                } else if (this.isHurt()) {
+                    this.playAnimation(this.IMAGES_HURT);
+                    return;
+
+                }
         }, 7000 / 60);
     }
 
