@@ -27,13 +27,13 @@ class PufferFish extends MovableObject {
         'img/2.Enemy/1.PufferFish/3.Bubbleeswim/1.bubbleswim5.png'
     ];
 
-    IMAGES_DIE = [
+    IMAGES_DEAD = [
         'img/2.Enemy/1.PufferFish/4.DIE/1.Dead.png',
         'img/2.Enemy/1.PufferFish/4.DIE/1.Dead2.png',
         'img/2.Enemy/1.PufferFish/4.DIE/1.Dead3.png',
     ];
     
-    constructor() {
+    constructor(existingObjects) {
         super().loadImage('img/2.Enemy/1.PufferFish/1.Swim/1.swim1.png');
         this.x = 450 + Math.random() * 2600;
         this.y = 100 + Math.random() * 300;
@@ -41,7 +41,8 @@ class PufferFish extends MovableObject {
         this.loadImages(this.IMAGES_SWIMMING);
         this.loadImages(this.IMAGES_TRANSITION);
         this.loadImages(this.IMAGES_BUBBLESWIM);
-        this.loadImages(this.IMAGES_DIE);
+        this.loadImages(this.IMAGES_DEAD);
+        this.setPositionWithoutOverlap(existingObjects);
         this.animate();
     }
 

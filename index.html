@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <script src="./models/keyboard.class.js"></script>
     <script src="./models/drawable-object.class.js"></script>
     <script src="./models/movable-objects.class.js"></script>
-    <script src="./models/keyboard.class.js"></script>
-    <script src="./models/world.class.js"></script>
     <script src="./models/character.class.js"></script>
     <script src="./models/pufferfish.class.js"></script>
     <script src="./models/jellyfish.class.js"></script>
@@ -19,6 +18,7 @@
     <script src="./models/statusbar-poison.class.js"></script>
     <script src="./models/background-object.class.js"></script>  
     <script src="./models/throwable-objects.class.js"></script>
+    <script src="./models/world.class.js"></script>
     <script src="./models/level.class.js"></script>
     <script src="./levels/level1.js"></script>
     <script src="./js/game.js"></script>
@@ -29,19 +29,34 @@
     <h1>Sharkie</h1>
     
     <div id="startscreen">
-        <div class="start-btn"onclick="init()">
+        <div class="start-btn" onclick="init()">
             <span>Start</span>
         </div>
     </div>
-    <div id="fullscreen">
-    <canvas id="canvas" width="720" height="480" allow="autoplay" class="d-none">
-        <img id="minimize-btn-id" class="button-icon-minimize d-none" src="./img/6.Botones/Full Screen/minimize.png" alt="minimize" onclick="fullscreen()">
-    </canvas>
-    </div>
-    <div class="game-informations">
-        <div class="fullscreen-btn">
-            <img id="fullscreen-btn-id" class="button-icon" src="./img/6.Botones/Full Screen/fullscreen-btn.png" alt="fullscreen" onclick="fullscreen()">
+    <div id="youwin" class="d-none">
+        <div class="navigation-btn-wrapper">
+        <div class="start-btn" onclick="restart()">
+            <span>Restart</span>
         </div>
+        <div class="start-btn" onclick="backToMenu()">
+            <span>End</span>
+        </div>
+    </div>
+    </div>
+    <div id="gameover" class="d-none">
+        <div class="gameover-slogan">Game Over!</div>
+        <div class="navigation-btn-wrapper">
+            <div class="start-btn" onclick="restart()">
+                <span>Restart</span>
+            </div>
+            <div class="start-btn" onclick="backToMenu()">
+                <span>End</span>
+            </div>
+        </div>
+    </div>
+    <canvas id="canvas" width="720" height="480" allow="autoplay" class="d-none">
+    </canvas>
+    <div class="game-informations">
         <div class="introductions">
             <span>Swim - Arrow Keys</span>
             <span>Shoot Bubble - D</span>

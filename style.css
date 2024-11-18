@@ -48,6 +48,47 @@ h1 {
     background-size: cover;
 }
 
+#youwin {
+        width: 720px;
+        height: 480px;
+        border-radius: 5px;
+        border: 2px solid white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: end;
+        background-image: url('./img/6.Botones/Tittles/Youwin/Mesa\ de\ trabajo\ 1.png');
+        background-size: cover;
+}
+
+#gameover {
+    width: 720px;
+        height: 480px;
+        border-radius: 5px;
+        border: 2px solid white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: end;
+        background-image: url('./img/sharkiestartscreen.jpg');
+        background-size: cover;
+        gap: 50px;
+}
+
+.gameover-slogan {
+    font-family: LuckiestGuy;
+    font-size: 100px;
+    color: white;
+}
+
+.navigation-btn-wrapper {
+    width: 140px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
 .start-btn {
     width: 140px;
     height: 50px;

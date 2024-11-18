@@ -11,12 +11,13 @@ class JellyFish extends MovableObject {
   
     ];
     
-    constructor() {
+    constructor(existingObjects) {
         super().loadImage('img/2.Enemy/2.JellyFish/SuperDangerous/Pink 1.png');
         this.x = 450 + Math.random() * 2600;
         this.y = 100 + Math.random() * 300;
         this.speed = 0.15 + Math.random() + 0.20;
         this.loadImages(this.IMAGES_SWIMMING);
+        this.setPositionWithoutOverlap(existingObjects);
         this.animate();
     }
 

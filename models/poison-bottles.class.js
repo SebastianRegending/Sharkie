@@ -19,6 +19,7 @@ class PoisonBottles extends MovableObject {
         super().loadImage('img/4.Marcadores/Posión/Animada/1.png');
         this.loadImages(this.IMAGES_POISON_BOTTLES);
         this.x = 500 + Math.random() * 2400;
+        // this.setPositionWithoutOverlap(existingObjects);
         this.animatePoisonBottles();
     }
 

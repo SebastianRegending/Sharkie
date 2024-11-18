@@ -1,7 +1,6 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
-let muted = false;
 
 function init() {
   document.getElementById('startscreen').classList.add('d-none');
@@ -9,6 +8,21 @@ function init() {
   canvas = document.getElementById('canvas');
   initLevel();
   world = new World(canvas, keyboard);
+}
+
+function restart() {
+  document.getElementById('youwin').classList.add('d-none');
+  document.getElementById('gameover').classList.add('d-none');
+  document.getElementById('canvas').classList.remove('d-none');
+  canvas = document.getElementById('canvas');
+  initLevel();
+  world = new World(canvas, keyboard);
+}
+
+function backToMenu() {
+  document.getElementById('youwin').classList.add('d-none');
+  document.getElementById('gameover').classList.add('d-none');
+  document.getElementById('startscreen').classList.remove('d-none');
 }
 
 
@@ -74,42 +88,12 @@ window.addEventListener('keydown', (event) => {
     false,
   );
 
-  function muteGame() {
-    document.getElementById('sound-btn-volume').classList.add('d-none');
-    document.getElementById('sound-btn-mute').classList.remove('d-none');
-    muted = true;
-  }
+  // function muteGame() {
+  //   document.getElementById('sound-btn-volume').classList.add('d-none');
+  //   document.getElementById('sound-btn-mute').classList.remove('d-none');
+  // }
   
-  function unmuteGame() {
-    document.getElementById('sound-btn-volume').classList.remove('d-none');
-    document.getElementById('sound-btn-mute').classList.add('d-none');
-    muted = false;
-  }
-  
-  function fullscreen() {
-    let fullscreen = document.getElementById('fullscreen');
-    enterFullscreen(fullscreen);
-  }
-  
-  function enterFullscreen(element) {
-    document.getElementById('fullscreen-btn-id').classList.toggle('d-none');
-    document.getElementById('minimize-btn-id').classList.toggle('d-none');
-    document.getElementById('canvas').classList.add('canvas-fullscreen');
-    if(element.requestFullscreen) {
-      element.requestFullscreen();
-    } else if(element.msRequestFullscreen) {
-      element.msRequestFullscreen();
-    } else if(element.webkitRequestFullscreen) {
-    }
-  }
-  
-  function exitFullscreen() {
-    document.getElementById('minimize-btn-id').classList.toggle('d-none');
-    document.getElementById('fullscreen-btn-id').classList.toggle('d-none');
-    document.getElementById('canvas').classList.remove('canvas-fullscreen');
-    if(document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if(document.webkitExitFullscreen) {
-      document.webkitExitFullscreen();
-    }
-  }
+  // function unmuteGame() {
+  //   document.getElementById('sound-btn-volume').classList.remove('d-none');
+  //   document.getElementById('sound-btn-mute').classList.add('d-none');
+  // }

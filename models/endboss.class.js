@@ -5,6 +5,9 @@ class Endboss extends MovableObject {
     y = -30;
     percentage = 100;
     hadFirstContact = false;
+    endboss_youwin_sound = new Audio ('audio/youwin.mp3');
+    endbos_bite_sound = new Audio ('audio/bite.mp3');
+    heartbeat_sound = new Audio ('audio/heartbeat.mp3');
 
     IMAGES_INTRO = [
         'img/2.Enemy/3.FinalEnemy/1.Introduce/1.png',
@@ -66,41 +69,58 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
+        this.endboss_youwin_sound.volume = 0.5;
+        this.endbos_bite_sound.volume = 0.6;
         this.x = 3100;
-        this.speed = 8;
+        this.speed = 16;
         this.animate();
     }
 
     animate() {
-        // let i = 0;
-        // setInterval(() => {
-        //     if (i < 10) {
-        //         this.playAnimation(this.IMAGES_INTRO);
-        //     } else {
-        //         this.playAnimation(this.IMAGES_IDLE);
-        //     }
-        //     i++;            
-            // if (world.character.x > 2400 && !this.hadFirstContact) {
-            //     i = 0;
-            //     this.hadFirstContact = true;
-                
-            // }
-        // }, 150);
-        setInterval(() => {
-            // if (world.character.x > 2500 && this.hadFirstContact || world.level.enemies.x < 3000 && world.level.enemies.x > 500) {
-            //     this.moveLeft();
-            //     this.playAnimation(this.IMAGES_ATTACK);
-            // } else {
-                this.playAnimation(this.IMAGES_IDLE);
-                if (this.isDead()) {
-                    this.playAnimation(this.IMAGES_DEAD);
-                    return;
-                } else if (this.isHurt()) {
-                    this.playAnimation(this.IMAGES_HURT);
-                    return;
-
+        let introPlayed = 0;
+        const animationInterval = setInterval(() => {
+            if (this.isDead()) {
+                this.playAnimation(this.IMAGES_DEAD);
+                setTimeout(() => {
+                    clearInterval(animationInterval);
+                    this.loadImage('img/2.Enemy/3.FinalEnemy/Dead/Mesa de trabajo 2 copia 10.png');
+                }, 100);
+                setTimeout(() => {
+                    this.clearAllIntervals();
+                    this.endboss_youwin_sound.play();
+                    document.getElementById('canvas').classList.add('d-none');
+                    document.getElementById('youwin').classList.remove('d-none');
+                }, 1000);
+                return;
+            }
+            if (!this.hadFirstContact && this.world.character.x > 2000) {
+                this.heartbeat_sound.play();                
+            }
+            if (!this.hadFirstContact && world.character.x > 2500) {
+                if (introPlayed < 10) {
+                    this.playAnimation(this.IMAGES_INTRO);
+                    introPlayed++;
+                } else {
+                    this.hadFirstContact = true;
                 }
-        }, 7000 / 60);
+                return;
+            }
+            if (this.hadFirstContact) {
+                if (world.character.x < this.x) {
+                    this.moveLeft();
+                    this.playAnimation(this.IMAGES_ATTACK);
+                    this.heartbeat_sound.pause();                
+                    this.endbos_bite_sound.play();
+                } else if (world.character.x > this.x) {
+                    this.playAnimation(this.IMAGES_IDLE);
+                }
+            } else {
+                this.playAnimation(this.IMAGES_IDLE);
+            }
+            if (this.isHurt()) {
+                this.playAnimation(this.IMAGES_HURT);
+            }
+        }, 6000 / 60);
     }
 
     setPercentageEndboss(percentage) {

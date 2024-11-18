@@ -1,5 +1,4 @@
 class Coins extends MovableObject {
-
     width = 45;
     height = 45;
     y = 200;
@@ -24,6 +23,5 @@ class Coins extends MovableObject {
             this.playAnimation(this.IMAGES_COINS);
         }, 12000 / 60);
     }
-
 
 }

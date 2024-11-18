@@ -6,22 +6,15 @@ class MovableObject extends DrawableObject {
     lastKeyPressed = 0;
     itemCoins = 0;
     itemBottles = 0;
-    offsetX = 50;
-    offsetY = 120;
+    offsetX = 40;
+    offsetY = 100;
     speedX = 15;
     acceleration = 14;
 
-    // isColliding(movableObject) {
-    //     return (this.x + this.width - this.offsetX) >= movableObject.x && this.x <= (movableObject.x + movableObject.width) &&
-    //         (this.y + this.height) >= movableObject.y &&
-    //         (this.y + this.offsetY) <= (movableObject.y + movableObject.height)
-    // }
-
     isColliding(movableObject) {
-        return (this.x + this.width) >= movableObject.x &&
-               this.x <= (movableObject.x + movableObject.width) &&
-               (this.y + this.height) >= movableObject.y &&
-               this.y <= (movableObject.y + movableObject.height);
+        return (this.x + this.width - this.offsetX) >= movableObject.x && this.x <= (movableObject.x + movableObject.width) &&
+            (this.y + this.height) >= movableObject.y &&
+            (this.y + this.offsetY) <= (movableObject.y + movableObject.height)
     }
 
     hit() {
@@ -103,5 +96,10 @@ class MovableObject extends DrawableObject {
         let path = images[i];
         this.img = this.imageCache[path];
         this.currentImage++;
+}
+
+clearAllIntervals() {
+    for (let i = 1; i < 99999; i++)
+        window.clearInterval(i);
 }
 }

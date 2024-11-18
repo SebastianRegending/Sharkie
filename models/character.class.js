@@ -4,6 +4,8 @@ class Character extends MovableObject{
     hurt_sound = new Audio ('audio/gettingdamage.mp3');
     dead_sound = new Audio ('audio/dead.mp3');
     enemy_hit_sound = new Audio ('audio/hit.mp3');
+    endboss_gameover_sound = new Audio ('audio/gameover.mp3')
+    snore_sound = new Audio ('audio/snore.mp3');
     speed = 4;
 
     IMAGES_SWIMMING = [
@@ -114,6 +116,12 @@ class Character extends MovableObject{
         this.loadImages(this.IMAGES_HURT_ELECTRIC);
         this.loadImages(this.IMAGES_ATTACK_SLAP);
         this.loadImages(this.IMAGES_ATTACK_BUBBLE);
+        this.swimming_sound.volume = 0.5;
+        this.hurt_sound.volume = 0.6;
+        this.dead_sound.volume = 0.6;
+        this.enemy_hit_sound.volume = 0.8;
+        this.endboss_gameover_sound.volume = 0.8;
+        this.snore_sound.volume = 0.4;
         this.animate();
     }
 
@@ -146,31 +154,33 @@ class Character extends MovableObject{
             setInterval(() => {
                 if(this.timeSinceLastKeyPressed() >= 10) {
                     this.playAnimation(this.IMAGES_LONG_IDLE);
+                    // this.snore_sound.play();
                 } else {
                     this.playAnimation(this.IMAGES_IDLE);
                 }                
                 if (this.isDead()) {
                     this.swimming_sound.pause();
                     this.playAnimation(this.IMAGES_DEAD);
-                    if (!muted) {
-                        this.dead_sound.play();                        
-                    }
+                        this.dead_sound.play();
+                        setTimeout(() => {
+                            clearInterval(characterAnimationInterval);
+                            this.loadImage('img/1.Sharkie/6.dead/1.Poisoned/sin subir/DES 2_00011.png');                         
+                        }, 100);                       
                     setTimeout(() => {
-                        clearInterval(characterAnimationInterval);
+                        this.clearAllIntervals();
+                        this.endboss_gameover_sound.play();
+                        document.getElementById('canvas').classList.add('d-none');
+                        document.getElementById('gameover').classList.remove('d-none');
                     }, 1500);
                 }
                  if (this.isHurt()) {
                     this.playAnimation(this.IMAGES_HURT_POISONED);
-                    if (!muted) {
                         this.hurt_sound.play();                        
-                    }
                 } else {                
                 if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
                     this.playAnimation(this.IMAGES_SWIMMING);
                     this.updateLastKeyPressed();
-                    if (!muted) {
-                        this.swimming_sound.play();                        
-                    }
+                        this.swimming_sound.play();               
                 }                
             }}, 9500 / 60);              
 
@@ -178,12 +188,9 @@ class Character extends MovableObject{
                 if(this.world.keyboard.SPACE) {
                     this.playAnimation(this.IMAGES_ATTACK_SLAP);
                     this.updateLastKeyPressed();
-                    if (!muted) {
                         this.enemy_hit_sound.play();
-                        
-                    }
                 }
-            }, 1000 / 60);
+            }, 1000 / 20);
 
 }
 }

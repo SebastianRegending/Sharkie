@@ -8,10 +8,12 @@ class World {
     statusBarHealth = new StatusbarHealth();
     statusBarCoins = new StatusbarCoins();
     statusBarPoison = new StatusbarPoison();
-    endboss = new Endboss();
     throwableObjects = [];
     lastTimeThrowed = 0;
     background_sound = new Audio ('audio/backgroundmusic.mp3');
+    bubble_pop = new Audio ('audio/bubblepop.mp3');
+    collect_coin = new Audio ('audio/collectcoin.mp3');
+    collect_bottle = new Audio ('audio/collectbottle.mp3');
 
     constructor(canvas, keyboard) {
     this.ctx = canvas.getContext('2d');
@@ -24,11 +26,17 @@ class World {
     this.checkPoisonBottlesCollisions();
     this.checkSlapAttackCollisions();
     this.checkThrowObject();
+    this.background_sound.volume = 0.5;
+    this.bubble_pop.volume = 0.7;
 }
 
 setWorld() {    
     this.character.world = this;
-    this.endboss.world = this;
+    this.level.enemies.forEach(enemy => {
+        if (enemy instanceof Endboss) {
+            enemy.world = this;
+        }
+    });
 }
 
 checkEnemyCollisions() {
@@ -46,6 +54,7 @@ checkCoinsCollisions() {
         this.level.coins.forEach((coin, index) => {
             if(this.character.isColliding(coin)) {                                                
                 this.character.collectCoins();
+                this.collect_coin.play();
                 this.statusBarCoins.setPercentageCoins(this.character.itemCoins);
                 this.level.coins.splice(index, 1);
             }   
@@ -58,6 +67,7 @@ checkPoisonBottlesCollisions() {
         this.level.poisonBottles.forEach((bottle, index) => {
             if(this.character.isColliding(bottle) && this.throwableObjects.length <= 4) {
                 this.character.collectBottles();
+                this.collect_bottle.play();
                 this.statusBarPoison.setPercentagePoison(this.character.itemBottles);
                 this.level.poisonBottles.splice(index, 1);
                 let bubble = new ThrowableObject();
@@ -95,7 +105,7 @@ checkBubbleAttackCollisions(bubble) {
                     this.character.shotPoisonBubble();
                     this.statusBarPoison.setPercentagePoisonBubbleShot(this.character.itemBottles);
                     this.throwableObjects.splice(bubbleIndex, 1);
-                    this.endboss.hit();
+                    enemy.hit();
                     clearInterval(collisionCheckInterval);
                 }
             }
@@ -118,7 +128,8 @@ checkThrowObject() {
                 bubble.x = this.character.x + 200;
                 bubble.y = this.character.y + 100;
                 bubble.startPosition = bubble.x;
-                this.lastTimeThrowed =  currentTime;       
+                this.lastTimeThrowed =  currentTime;
+                this.bubble_pop.play();    
                 this.checkBubbleAttackCollisions(bubble);
         }
     }}, 100);
@@ -138,11 +149,9 @@ draw() {
     this.addObjectsToMap(this.level.poisonBottles);
     this.addObjectsToMap(this.level.enemies);
     this.addToMap(this.character);
-    this.addToMap(this.endboss);
     this.ctx.translate(-this.camera_x, 0);
-    if (!muted) {
-        this.background_sound.play();        
-    }
+    this.background_sound.play();        
+
 
         let self = this;
         requestAnimationFrame(function() {
