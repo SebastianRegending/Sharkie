@@ -121,76 +121,114 @@ class Character extends MovableObject{
         this.dead_sound.volume = 0.6;
         this.enemy_hit_sound.volume = 0.8;
         this.endboss_gameover_sound.volume = 0.8;
-        this.snore_sound.volume = 0.4;
         this.animate();
     }
 
     animate() {
-        setInterval(() => {
-            if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                this.moveRight();
-                this.updateLastKeyPressed();
-                this.otherDirection = false;
-            }
-            if(this.world.keyboard.LEFT && this.x > 0) {
-                this.moveLeft();
-                this.updateLastKeyPressed();
-                this.otherDirection = true;         
-                }
-                if(this.world.keyboard.UP && this.y > this.world.level.level_end_y_top) {
-                    this.moveUp();
-                    this.updateLastKeyPressed();
-                    this.swimming_sound.play();
-                }
-                if(this.world.keyboard.DOWN && this.y < this.world.level.level_end_y_bottom) {
-                    this.moveDown();
-                    this.updateLastKeyPressed();
-                    this.swimming_sound.play();
-                }
-                this.world.camera_x = -this.x + 30;
-            }, 1000 / 60);
+        const commandCharacterSwim = setInterval(() => {
+            this.commandSwimLeft();
+            this.commandSwimRight();
+            this.commandSwimUp();
+            this.commandSwimDown();
+            this.world.camera_x = -this.x + 30;
+        }, 1000 / 60);
+        allIntervalIds.push(commandCharacterSwim);
 
-            const characterAnimationInterval =
-            setInterval(() => {
-                if(this.timeSinceLastKeyPressed() >= 10) {
-                    this.playAnimation(this.IMAGES_LONG_IDLE);
-                    // this.snore_sound.play();
-                } else {
-                    this.playAnimation(this.IMAGES_IDLE);
-                }                
-                if (this.isDead()) {
-                    this.swimming_sound.pause();
-                    this.playAnimation(this.IMAGES_DEAD);
-                        this.dead_sound.play();
-                        setTimeout(() => {
-                            clearInterval(characterAnimationInterval);
-                            this.loadImage('img/1.Sharkie/6.dead/1.Poisoned/sin subir/DES 2_00011.png');                         
-                        }, 100);                       
-                    setTimeout(() => {
-                        this.clearAllIntervals();
-                        this.endboss_gameover_sound.play();
-                        document.getElementById('canvas').classList.add('d-none');
-                        document.getElementById('gameover').classList.remove('d-none');
-                    }, 1500);
-                }
-                 if (this.isHurt()) {
-                    this.playAnimation(this.IMAGES_HURT_POISONED);
-                        this.hurt_sound.play();                        
-                } else {                
-                if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
-                    this.playAnimation(this.IMAGES_SWIMMING);
-                    this.updateLastKeyPressed();
-                        this.swimming_sound.play();               
-                }                
-            }}, 9500 / 60);              
 
-            setInterval(() => {
-                if(this.world.keyboard.SPACE) {
-                    this.playAnimation(this.IMAGES_ATTACK_SLAP);
-                    this.updateLastKeyPressed();
-                        this.enemy_hit_sound.play();
-                }
+            const animationCharacterStates = setInterval(() => {
+                this.animationSwim();
+                this.animationIdle();
+                this.animationDead();
+                this.animationHurt();              
+                 }, 9500 / 60);              
+                 allIntervalIds.push(animationCharacterStates);
+
+           const animationCharacterSlap = setInterval(() => {
+                this.animationSlap();
             }, 1000 / 20);
+            allIntervalIds.push(animationCharacterSlap);
+}
 
+commandSwimLeft() {
+    if(this.world.keyboard.LEFT && this.x > 0) {
+        this.moveLeft();
+        this.updateLastKeyPressed();
+        this.otherDirection = true;         
+        }
+}
+
+commandSwimRight() {
+    if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+        this.moveRight();
+        this.updateLastKeyPressed();
+        this.otherDirection = false;
+    }
+}
+
+commandSwimUp() {
+    if(this.world.keyboard.UP && this.y > this.world.level.level_end_y_top) {
+        this.moveUp();
+        this.updateLastKeyPressed();
+        this.swimming_sound.play();
+    }
+}
+
+commandSwimDown() {
+    if(this.world.keyboard.DOWN && this.y < this.world.level.level_end_y_bottom) {
+        this.moveDown();
+        this.updateLastKeyPressed();
+        this.swimming_sound.play();
+    }
+}
+
+animationSwim() {
+    if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
+        this.playAnimation(this.IMAGES_SWIMMING);
+        this.updateLastKeyPressed();
+            this.swimming_sound.play();               
+    }        
+}
+
+animationIdle() {
+    if(this.timeSinceLastKeyPressed() >= 10) {
+        this.playAnimation(this.IMAGES_LONG_IDLE);
+    } else {
+        this.playAnimation(this.IMAGES_IDLE);
+    }                
+}
+
+animationDead() {
+    if (this.isDead()) {
+        this.swimming_sound.pause();
+        this.playAnimation(this.IMAGES_DEAD);
+        this.world.background_sound.volume = 0;
+            this.dead_sound.play();
+            setTimeout(() => {
+                clearAllIntervals();
+                this.loadImage('img/1.Sharkie/6.dead/1.Poisoned/sin subir/DES 2_00011.png');                         
+            }, 100);                       
+        setTimeout(() => {
+            this.endboss_gameover_sound.play();
+            document.getElementById('canvas').classList.add('d-none');
+            document.getElementById('gameover').classList.remove('d-none');
+        }, 1500);
+    }
+}
+
+animationHurt() {
+    if (this.isHurt()) {
+        this.playAnimation(this.IMAGES_HURT_POISONED);
+            this.hurt_sound.play();                        
+    } else {                
+            this.animationSwim();
+}
+}
+
+animationSlap() {
+    if(this.world.keyboard.SPACE) {
+        this.playAnimation(this.IMAGES_ATTACK_SLAP);
+        this.updateLastKeyPressed();
+            this.enemy_hit_sound.play();
+    }
 }
 }

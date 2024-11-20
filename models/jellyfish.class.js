@@ -11,22 +11,23 @@ class JellyFish extends MovableObject {
   
     ];
     
-    constructor(existingObjects) {
+    constructor() {
         super().loadImage('img/2.Enemy/2.JellyFish/SuperDangerous/Pink 1.png');
         this.x = 450 + Math.random() * 2600;
         this.y = 100 + Math.random() * 300;
         this.speed = 0.15 + Math.random() + 0.20;
         this.loadImages(this.IMAGES_SWIMMING);
-        this.setPositionWithoutOverlap(existingObjects);
         this.animate();
     }
 
     animate() {
-        setInterval(() => {
+        const commandMoveJellyfish = setInterval(() => {
             this.moveLeft();   
         }, 1000 / 60);
-        setInterval(() => {
+        allIntervalIds.push(commandMoveJellyfish);
+        const animateMoveJellyfish = setInterval(() => {
             this.playAnimation(this.IMAGES_SWIMMING);
         }, 6000 / 60);
+        allIntervalIds.push(animateMoveJellyfish);
     }
 }

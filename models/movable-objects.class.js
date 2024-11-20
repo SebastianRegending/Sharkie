@@ -66,13 +66,14 @@ class MovableObject extends DrawableObject {
     }
     
     bubbleAcceleration() {
-        setInterval(() => {
+        const bubbleAccelerationLogic = setInterval(() => {
             this.x += this.speedX;
             this.speedX -= this.acceleration;
             if (this.speedX <= 0) {
                 this.speedX = 0;
             }
         }, 1000 / 25);
+        allIntervalIds.push(bubbleAccelerationLogic);
     }
 
     moveRight() {
@@ -96,10 +97,5 @@ class MovableObject extends DrawableObject {
         let path = images[i];
         this.img = this.imageCache[path];
         this.currentImage++;
-}
-
-clearAllIntervals() {
-    for (let i = 1; i < 99999; i++)
-        window.clearInterval(i);
 }
 }

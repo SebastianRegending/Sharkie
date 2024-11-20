@@ -15,17 +15,15 @@ class World {
     collect_coin = new Audio ('audio/collectcoin.mp3');
     collect_bottle = new Audio ('audio/collectbottle.mp3');
 
-    constructor(canvas, keyboard) {
+    constructor(canvas, keyboard, allIntervalIds) {
     this.ctx = canvas.getContext('2d');
     this.canvas = canvas;
     this.keyboard = keyboard;
+    this.allIntervalIds = allIntervalIds;
     this.draw();
     this.setWorld();
     this.checkEnemyCollisions();
-    this.checkCoinsCollisions();
-    this.checkPoisonBottlesCollisions();
-    this.checkSlapAttackCollisions();
-    this.checkThrowObject();
+    this.startExecuteCollisions();
     this.background_sound.volume = 0.5;
     this.bubble_pop.volume = 0.7;
 }
@@ -40,17 +38,32 @@ setWorld() {
 }
 
 checkEnemyCollisions() {
-    setInterval(() => {
+    const enemyCollisions = setInterval(() => {
         this.level.enemies.forEach((enemy) => {
             if(this.character.isColliding(enemy)) {                                                
                 this.character.hit();
                 this.statusBarHealth.setPercentageHealth(this.character.energy);
     }});
     }, 1000);
+    allIntervalIds.push(enemyCollisions);
+}
+
+startExecuteCollisions() {
+    const itemCollisions = setInterval(() => this.executeCollisions(), 100)
+    allIntervalIds.push(itemCollisions);
+}
+
+executeCollisions() {
+    this.checkCoinsCollisions();
+    this.checkPoisonBottlesCollisions();
+    this.checkSlapAttackCollisions();
+    this.checkThrowObject();
+    if (this.bubble) {
+        this.checkBubbleAttackCollisions(this.bubble);
+    }
 }
 
 checkCoinsCollisions() {
-    setInterval(() => {
         this.level.coins.forEach((coin, index) => {
             if(this.character.isColliding(coin)) {                                                
                 this.character.collectCoins();
@@ -59,11 +72,9 @@ checkCoinsCollisions() {
                 this.level.coins.splice(index, 1);
             }   
         });
-    }, 100);
 }
 
 checkPoisonBottlesCollisions() {
-    setInterval(() => {
         this.level.poisonBottles.forEach((bottle, index) => {
             if(this.character.isColliding(bottle) && this.throwableObjects.length <= 4) {
                 this.character.collectBottles();
@@ -74,11 +85,9 @@ checkPoisonBottlesCollisions() {
             this.throwableObjects.push(bubble);
             }
                });
-    }, 100);
 }
 
 checkSlapAttackCollisions() {
-        setInterval(() => {
         this.level.enemies.forEach((enemy, enemyIndex) => {
             if (this.character.isColliding(enemy) && this.keyboard.SPACE) {  
                 if (enemy instanceof PufferFish) {
@@ -89,24 +98,23 @@ checkSlapAttackCollisions() {
                 }
             }
         });
-    }, 100);
 }
 
 checkBubbleAttackCollisions(bubble) {
-    const collisionCheckInterval = setInterval(() => {
+        if (!bubble) return;
         let bubbleIndex = this.throwableObjects.indexOf(bubble);
         if (bubbleIndex == -1) {
-            clearInterval(collisionCheckInterval);
+            this.bubble = null;
             return;
         }
-        this.level.enemies.forEach((enemy, enemyIndex) => {
+        this.level.enemies.forEach((enemy) => {
             if (bubble.isColliding(enemy)) {                
                 if (enemy instanceof Endboss) {
                     this.character.shotPoisonBubble();
                     this.statusBarPoison.setPercentagePoisonBubbleShot(this.character.itemBottles);
                     this.throwableObjects.splice(bubbleIndex, 1);
                     enemy.hit();
-                    clearInterval(collisionCheckInterval);
+                    this.bubble = null;
                 }
             }
         });
@@ -114,25 +122,22 @@ checkBubbleAttackCollisions(bubble) {
             this.throwableObjects.splice(bubbleIndex, 1);
             this.character.shotPoisonBubble();
             this.statusBarPoison.setPercentagePoisonBubbleShot(this.character.itemBottles);
-            clearInterval(collisionCheckInterval);
+            this.bubble = null;
         }
-    }, 100);
 }
 
 checkThrowObject() {
-    setInterval(() => {
         const currentTime = Date.now();
         if (this.keyboard.D && currentTime - this.lastTimeThrowed >= 1000) {
             if (this.throwableObjects.length > 0) {
-                let bubble = this.throwableObjects[0];
-                bubble.x = this.character.x + 200;
-                bubble.y = this.character.y + 100;
-                bubble.startPosition = bubble.x;
+                this.bubble = this.throwableObjects[0];
+                this.bubble.x = this.character.x + 200;
+                this.bubble.y = this.character.y + 100;
+                this.bubble.startPosition = this.bubble.x;
                 this.lastTimeThrowed =  currentTime;
                 this.bubble_pop.play();    
-                this.checkBubbleAttackCollisions(bubble);
         }
-    }}, 100);
+}
 }
 
 draw() {

@@ -16,8 +16,7 @@ class ThrowableObject extends MovableObject {
     }
 
     throw() {
-        setInterval(() => {
-            // this.playAnimation(this.IMAGES_ATTACK_POISONED_BUBBLE);
+        const throwLogic = setInterval(() => {
             this.x += 25;
             if (this.speedX == 0) {
                 stopX = this.x;
@@ -26,6 +25,7 @@ class ThrowableObject extends MovableObject {
                 this.y -= 20;
             }
         }, 1000 / 25);
+        allIntervalIds.push(throwLogic);
     }
 
 }

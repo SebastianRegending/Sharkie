@@ -6,9 +6,10 @@ class Endboss extends MovableObject {
     percentage = 100;
     hadFirstContact = false;
     endboss_youwin_sound = new Audio ('audio/youwin.mp3');
-    endbos_bite_sound = new Audio ('audio/bite.mp3');
+    endboss_bite_sound = new Audio ('audio/bite.mp3');
     heartbeat_sound = new Audio ('audio/heartbeat.mp3');
-
+    introPlayed = 0;
+    
     IMAGES_INTRO = [
         'img/2.Enemy/3.FinalEnemy/1.Introduce/1.png',
         'img/2.Enemy/3.FinalEnemy/1.Introduce/2.png',
@@ -70,59 +71,22 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
         this.endboss_youwin_sound.volume = 0.5;
-        this.endbos_bite_sound.volume = 0.6;
+        this.endboss_bite_sound.volume = 0.5;
         this.x = 3100;
         this.speed = 16;
         this.animate();
     }
 
     animate() {
-        let introPlayed = 0;
-        const animationInterval = setInterval(() => {
-            if (this.isDead()) {
-                this.playAnimation(this.IMAGES_DEAD);
-                setTimeout(() => {
-                    clearInterval(animationInterval);
-                    this.loadImage('img/2.Enemy/3.FinalEnemy/Dead/Mesa de trabajo 2 copia 10.png');
-                }, 100);
-                setTimeout(() => {
-                    this.clearAllIntervals();
-                    this.endboss_youwin_sound.play();
-                    document.getElementById('canvas').classList.add('d-none');
-                    document.getElementById('youwin').classList.remove('d-none');
-                }, 1000);
-                return;
-            }
-            if (!this.hadFirstContact && this.world.character.x > 2000) {
-                this.heartbeat_sound.play();                
-            }
-            if (!this.hadFirstContact && world.character.x > 2500) {
-                if (introPlayed < 10) {
-                    this.playAnimation(this.IMAGES_INTRO);
-                    introPlayed++;
-                } else {
-                    this.hadFirstContact = true;
-                }
-                return;
-            }
-            if (this.hadFirstContact) {
-                if (world.character.x < this.x) {
-                    this.moveLeft();
-                    this.playAnimation(this.IMAGES_ATTACK);
-                    this.heartbeat_sound.pause();                
-                    this.endbos_bite_sound.play();
-                } else if (world.character.x > this.x) {
-                    this.playAnimation(this.IMAGES_IDLE);
-                }
-            } else {
-                this.playAnimation(this.IMAGES_IDLE);
-            }
-            if (this.isHurt()) {
-                this.playAnimation(this.IMAGES_HURT);
-            }
+        const animationCharacterMeetsBoss = setInterval(() => {
+            this.animationDead();
+            this.endbossIntro();
+            this.endbossFirstContact();
+            this.endbossHitsCharacter();
         }, 6000 / 60);
+        allIntervalIds.push(animationCharacterMeetsBoss);
     }
-
+    
     setPercentageEndboss(percentage) {
         this.percentage = percentage;
         let path = this.IMAGES_POISON_BOTTLE[this.resolveImageIndexBottomToTop()];
@@ -142,6 +106,59 @@ class Endboss extends MovableObject {
             return 1;
         } else {
             return 0;
+        }
+    }
+    
+    animationDead() {
+        if (this.isDead()) {
+            this.playAnimation(this.IMAGES_DEAD);
+            setTimeout(() => {
+                clearAllIntervals();
+                this.loadImage('img/2.Enemy/3.FinalEnemy/Dead/Mesa de trabajo 2 copia 10.png');
+            }, 100);
+            setTimeout(() => {
+                this.endboss_youwin_sound.play();
+                document.getElementById('canvas').classList.add('d-none');
+                document.getElementById('youwin').classList.remove('d-none');
+            }, 1000);
+            return;
+        }
+    }
+    
+    endbossIntro() {
+        if (!this.hadFirstContact && this.world.character.x > 2000) {
+            this.world.background_sound.volume = 0;
+            this.heartbeat_sound.play();
+        }
+        if (!this.hadFirstContact && this.world.character.x > 2500) {
+            if (this.introPlayed < 10) {
+                this.playAnimation(this.IMAGES_INTRO);
+                this.introPlayed++;
+            } else {
+                this.hadFirstContact = true;
+            }
+            return;
+        }
+    }
+    
+    endbossFirstContact() {
+        if (this.hadFirstContact) {
+            if (this.world.character.x < this.x) {
+                this.moveLeft();
+                this.playAnimation(this.IMAGES_ATTACK);
+                this.heartbeat_sound.pause();                
+                this.endboss_bite_sound.play();
+            } else if (world.character.x > this.x) {
+                this.playAnimation(this.IMAGES_IDLE);
+            }
+        } else {
+            this.playAnimation(this.IMAGES_IDLE);
+        }
+    }
+    
+    endbossHitsCharacter() {
+        if (this.isHurt()) {
+            this.playAnimation(this.IMAGES_HURT);
         }
     }
 
