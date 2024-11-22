@@ -9,7 +9,9 @@ function init() {
   document.getElementById('canvas').classList.remove('d-none');
   canvas = document.getElementById('canvas');
   initLevel();
+  checkResolution();
   world = new World(canvas, keyboard, allIntervalIds);
+  initMobileButtons();
 }
 
 function restart() {
@@ -18,6 +20,7 @@ function restart() {
   document.getElementById('canvas').classList.remove('d-none');
   canvas = document.getElementById('canvas');
   initLevel();
+  checkResolution();
   world = new World(canvas, keyboard, allIntervalIds);
 }
 
@@ -89,64 +92,85 @@ function closeImpressum() {
   document.getElementById('game-informations').classList.remove('d-none');
 }
 
-window.addEventListener('keydown', (event) => {
-    if (event.defaultPrevented) {
-        return;
-      }  
-      switch (event.key) {
-        case "ArrowDown":
-            keyboard.DOWN = true;
-          break;
-        case "ArrowUp":
-            keyboard.UP = true;
-          break;
-        case "ArrowLeft":
-            keyboard.LEFT = true;
-          break;
-        case "ArrowRight":
-            keyboard.RIGHT = true;
-          break;
-        case " ":
-            keyboard.SPACE = true;
-          break;
-          case "d":
-            keyboard.D = true;
-          break;
-        default:
-          return;
-      }
-      event.preventDefault();
-    },
-    true,
-  );
+function checkResolution() {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  if (width <= height) {
+      document.getElementById('check-resolution').classList.remove('d-none');
+      document.getElementById('mobile-keyboard').classList.add('d-none');      
+    } else {
+      document.getElementById('check-resolution').classList.add('d-none');
+      document.getElementById('mobile-keyboard').classList.remove('d-none');
+  }
+}
 
-  window.addEventListener('keyup', (event) => {
-    if (event.defaultPrevented) {
-        return;
-      }  
-      switch (event.key) {
-        case "ArrowDown":
-            keyboard.DOWN = false;
-          break;
-        case "ArrowUp":
-            keyboard.UP = false;
-          break;
-        case "ArrowLeft":
-            keyboard.LEFT = false;
-          break;
-        case "ArrowRight":
-            keyboard.RIGHT = false;
-          break;
-        case " ":
-            keyboard.SPACE = false;
-          break;
-          case "d":
-            keyboard.D = false;
-          break;
-        default:
-          return;
-      }
-      event.preventDefault();
-    },
-    false,
-  );
+window.addEventListener('resize', checkResolution);
+
+/**
+ * Initializes the event listeners for the responsive touchbuttons
+ */
+function initMobileButtons() {
+  initMobileButtonsSwim();
+  initMobileButtonsAttack();
+}
+
+/**
+* Initializes the event listeners for the mobile touchbuttons for Swim
+*/
+function initMobileButtonsSwim() {
+  document.getElementById('key-left').addEventListener('touchstart', () => {
+      keyboard['LEFT'] = true;
+      colorButton('key-left');
+  });
+  document.getElementById('key-left').addEventListener('touchend', () => {
+      keyboard['LEFT'] = false;
+      decolorButton('key-left');
+  });
+  document.getElementById('key-right').addEventListener('touchstart', () => {
+      keyboard['RIGHT'] = true;
+      colorButton('key-right');
+  });
+  document.getElementById('key-right').addEventListener('touchend', () => {
+      keyboard['RIGHT'] = false;
+      decolorButton('key-right');
+  });
+  document.getElementById('key-up').addEventListener('touchstart', () => {
+    keyboard['UP'] = true;
+    colorButton('key-up');
+});
+document.getElementById('key-up').addEventListener('touchend', () => {
+    keyboard['UP'] = false;
+    decolorButton('key-up');
+});
+document.getElementById('key-down').addEventListener('touchstart', () => {
+  keyboard['DOWN'] = true;
+  colorButton('key-down');
+});
+document.getElementById('key-down').addEventListener('touchend', () => {
+  keyboard['DOWN'] = false;
+  decolorButton('key-down');
+});
+}
+
+/**
+* Initializes the event listeners for the mobile touchbuttons D and SPACEBAR for Attack
+*/
+function initMobileButtonsAttack() {
+  document.getElementById('key-space').addEventListener('touchstart', () => {
+      keyboard['SPACE'] = true;
+      colorButton('key-space');
+  });
+  document.getElementById('key-space').addEventListener('touchend', () => {
+      keyboard['SPACE'] = false;
+      decolorButton('key-space');
+  });
+  document.getElementById('key-d').addEventListener('touchstart', () => {
+      keyboard['D'] = true;
+      colorButton('key-d');
+  });
+  document.getElementById('key-d').addEventListener('touchend', () => {
+      keyboard['D'] = false;
+      decolorButton('key-d');
+  });
+}
+

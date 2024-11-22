@@ -211,6 +211,7 @@ animationDead() {
             this.endboss_gameover_sound.play();
             document.getElementById('canvas').classList.add('d-none');
             document.getElementById('gameover').classList.remove('d-none');
+            document.getElementById('mobile-keyboard').classList.add('d-none');
         }, 1500);
     }
 }

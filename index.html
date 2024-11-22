@@ -24,7 +24,7 @@
     <script src="./js/game.js"></script>
     <title>Sharkie</title>
 </head>
-<body>
+<body onload="checkResolution()">
 
     <h1>Sharkie</h1>
     
@@ -56,6 +56,20 @@
     </div>
     <canvas id="canvas" width="720" height="480" allow="autoplay" class="d-none">
     </canvas>
+    <div id="mobile-keyboard" class="d-none">
+        <div class="steering-keys">
+        <div id="key-left" class="mobile-keys-style">←</div>
+        <div class="steering-up-down">
+        <div id="key-up" class="mobile-keys-style">↑</div>
+        <div id="key-down" class="mobile-keys-style">↓</div>
+    </div>
+        <div id="key-right" class="mobile-keys-style">→</div>
+    </div>
+    <div class="attack-keys">
+        <div id="key-space" class="mobile-keys-style">Slap</div>
+        <div id="key-d" class="mobile-keys-style">Bubble</div>
+    </div>
+    </div>
     <div id="game-informations">
         <div class="start-btn-large" onclick="loadImpressum()">Impressum</div>        
         <div class="instructions">
@@ -81,6 +95,7 @@
     </div>
         <div class="start-btn-small" onclick="closeImpressum()">Back</div>
     </div>
+    <div id="check-resolution" class="d-none">Please rotate your Screen to play</div>
         
 </body>
 </html>

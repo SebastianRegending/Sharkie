@@ -120,6 +120,7 @@ class Endboss extends MovableObject {
                 this.endboss_youwin_sound.play();
                 document.getElementById('canvas').classList.add('d-none');
                 document.getElementById('youwin').classList.remove('d-none');
+                document.getElementById('mobile-keyboard').classList.add('d-none');
             }, 1000);
             return;
         }

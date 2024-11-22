@@ -60,7 +60,6 @@ class MovableObject extends DrawableObject {
         return timePassed;
     }
 
-
     isDead() {
         return this.energy == 0;
     }

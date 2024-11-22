@@ -27,5 +27,4 @@ class ThrowableObject extends MovableObject {
         }, 1000 / 25);
         allIntervalIds.push(throwLogic);
     }
-
 }
