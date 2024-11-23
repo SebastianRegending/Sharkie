@@ -4,6 +4,9 @@ let keyboard = new Keyboard();
 let allIntervalIds = [];
 let isMuted = false;
 
+/**
+ * Initializes the Game after click on startbutton
+ */
 function init() {
   document.getElementById('startscreen').classList.add('d-none');
   document.getElementById('canvas').classList.remove('d-none');
@@ -14,6 +17,9 @@ function init() {
   initMobileButtons();
 }
 
+/**
+ * Restarts the game after win or lose
+ */
 function restart() {
   document.getElementById('youwin').classList.add('d-none');
   document.getElementById('gameover').classList.add('d-none');
@@ -24,17 +30,26 @@ function restart() {
   world = new World(canvas, keyboard, allIntervalIds);
 }
 
+/**
+ * Goes back to startscreen after win or lose
+ */
 function backToMenu() {
   document.getElementById('youwin').classList.add('d-none');
   document.getElementById('gameover').classList.add('d-none');
   document.getElementById('startscreen').classList.remove('d-none');
 }
 
+/**
+ * Ends all Intervals
+ */
 function clearAllIntervals() {
   allIntervalIds.forEach(intervalId => clearInterval(intervalId));
   allIntervalIds = [];
 }
 
+/**
+ * Toggles about mute and unmute
+ */
 function toggleMute() {
   isMuted = !isMuted;
   document.getElementById('sound-btn-volume').classList.toggle('d-none');
@@ -44,6 +59,9 @@ function toggleMute() {
   }
 }
 
+/**
+ * Initializes all gamesounds functions
+ */
 function updateAllSounds() {
   const volume = isMuted ? 0 : 1;
   this.updateWorldSound(volume);
@@ -52,6 +70,10 @@ function updateAllSounds() {
 
 }
 
+/**
+ * Plays the world sounds
+ * @param {number} volume 
+ */
 function updateWorldSound(volume) {
   world.background_sound.volume = volume * 0.5;
   world.bubble_pop.volume = volume * 0.7;
@@ -59,6 +81,10 @@ function updateWorldSound(volume) {
   world.collect_bottle.volume = volume;
 }
 
+/**
+ * Plays the character sounds
+ * @param {number} volume 
+ */
 function updateCharacterSound(volume) {
   world.character.swimming_sound.volume = volume * 0.5;
   world.character.hurt_sound.volume = volume * 0.6;
@@ -68,6 +94,10 @@ function updateCharacterSound(volume) {
   world.character.endboss_gameover_sound.volume = volume * 0.8;
 }
 
+/**
+ * Plays the endboss sounds
+ * @param {number} volume 
+ */
 function updateEndbossSound(volume) {
   world.level.enemies.forEach(enemy => {
     if (enemy instanceof Endboss) {
@@ -78,6 +108,9 @@ function updateEndbossSound(volume) {
   });
 }
 
+/**
+ * Loads imprint only on startscreen
+ */
 function loadImpressum() {
   if (typeof world == 'undefined' && world == null) {
     document.getElementById('impressum').classList.remove('d-none');
@@ -86,12 +119,18 @@ function loadImpressum() {
   }
 }
 
+/**
+ * Closes the imprint
+ */
 function closeImpressum() {
   document.getElementById('impressum').classList.add('d-none');
   document.getElementById('startscreen').classList.remove('d-none');
   document.getElementById('game-informations').classList.remove('d-none');
 }
 
+/**
+ * Checks the resolution and if its mobile or not
+ */
 function checkResolution() {
   const width = window.innerWidth;
   const height = window.innerHeight;
@@ -108,6 +147,9 @@ function checkResolution() {
   }
 }
 
+/**
+ * Eventlistener for resize an resolution checks
+ */
 window.addEventListener('resize', checkResolution);
 
 /**

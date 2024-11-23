@@ -33,6 +33,9 @@ class PufferFish extends MovableObject {
         'img/2.Enemy/1.PufferFish/4.DIE/1.Dead3.png',
     ];
 
+    /**
+     * Initializes the parameters for the pufferfish und loads the images
+     */
     constructor() {
         super().loadImage('img/2.Enemy/1.PufferFish/1.Swim/1.swim1.png');
         this.x = 450 + Math.random() * 2600;
@@ -45,6 +48,9 @@ class PufferFish extends MovableObject {
         this.animate();
     }
 
+    /**
+     * Starts the animation for the pufferfish
+     */
     animate() {
         const commandMovePufferfish = setInterval(() => {
             this.moveLeft();

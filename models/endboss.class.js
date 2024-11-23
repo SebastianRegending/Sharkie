@@ -63,6 +63,9 @@ class Endboss extends MovableObject {
         'img/2.Enemy/3.FinalEnemy/Hurt/4.png'
     ];
 
+    /**
+     * Sets the position, speed, sound volume and loads the images of the endboss
+     */
     constructor() {
         super().loadImage(this.IMAGES_IDLE[0]);
         this.loadImages(this.IMAGES_INTRO);
@@ -77,6 +80,9 @@ class Endboss extends MovableObject {
         this.animate();
     }
 
+    /**
+     * Executes the animations of the endboss and start the interval
+     */
     animate() {
         const animationCharacterMeetsBoss = setInterval(() => {
             this.animationDead();
@@ -87,12 +93,20 @@ class Endboss extends MovableObject {
         allIntervalIds.push(animationCharacterMeetsBoss);
     }
 
+    /**
+     * Sets the health percentags of the endboss
+     * @param {number} percentage 
+     */
     setPercentageEndboss(percentage) {
         this.percentage = percentage;
         let path = this.IMAGES_POISON_BOTTLE[this.resolveImageIndexBottomToTop()];
         this.img = this.imageCache[path];
     }
 
+    /**
+     * Sets the image of the statusbar of the poison bottles
+     * @returns the number of the image
+     */
     resolveImageIndexTopToBottom() {
         if (this.percentage == 100) {
             return 5;
@@ -109,6 +123,10 @@ class Endboss extends MovableObject {
         }
     }
 
+    /**
+     * Starts the dead animation from the endboss, stops the game and show the you win screen
+     * @returns 
+     */
     animationDead() {
         if (this.isDead()) {
             this.playAnimation(this.IMAGES_DEAD);
@@ -126,6 +144,10 @@ class Endboss extends MovableObject {
         }
     }
 
+    /**
+     * Starts the entrance intro from the endboss
+     * @returns 
+     */
     endbossIntro() {
         if (!this.hadFirstContact && this.world.character.x > 2000) {
             this.world.background_sound.volume = 0;
@@ -142,6 +164,9 @@ class Endboss extends MovableObject {
         }
     }
 
+    /**
+     * Checks if the character has the first contact with the boss and starts the attack animation from the endboss
+     */
     endbossFirstContact() {
         if (this.hadFirstContact) {
             if (this.world.character.x < this.x) {
@@ -157,6 +182,9 @@ class Endboss extends MovableObject {
         }
     }
 
+    /**
+     * Starts the animation of the endboss when he is hurt from the character
+     */
     endbossHitsCharacter() {
         if (this.isHurt()) {
             this.playAnimation(this.IMAGES_HURT);

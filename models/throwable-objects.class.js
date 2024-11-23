@@ -6,6 +6,11 @@ class ThrowableObject extends MovableObject {
         'img/1.Sharkie/4.Attack/Bubble trap/Poisoned Bubble (for whale).png'
     ];
 
+    /**
+     * Sets the position and loads the images of the poison bubble
+     * @param {number} x 
+     * @param {number} y 
+     */
     constructor(x, y) {
         super().loadImage('img/1.Sharkie/4.Attack/Bubble trap/Poisoned Bubble (for whale).png');
         this.height = 45;
@@ -15,6 +20,9 @@ class ThrowableObject extends MovableObject {
         this.throw();
     }
 
+    /**
+     * Logic for the poison bubble and starts the throw interval
+     */
     throw() {
         const throwLogic = setInterval(() => {
             this.x += 25;

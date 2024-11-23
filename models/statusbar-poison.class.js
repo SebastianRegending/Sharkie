@@ -11,6 +11,9 @@ class StatusbarPoison extends DrawableObject {
 
     percentage = 0;
 
+    /**
+     * Loads the position and images of the poison statusbar
+     */
     constructor() {
         super();
         this.loadImages(this.IMAGES_POISON_BOTTLE);
@@ -21,18 +24,30 @@ class StatusbarPoison extends DrawableObject {
         this.setPercentagePoison(0);
     }
 
+    /**
+     * Sets the precentage of the poison statusbar
+     * @param {number} percentage 
+     */
     setPercentagePoison(percentage) {
         this.percentage = percentage;
         let path = this.IMAGES_POISON_BOTTLE[this.resolveImageIndexBottomToTop()];
         this.img = this.imageCache[path];
     }
 
+    /**
+     * Sets the precentage of the coins statusbar after bubble was shot
+     * @param {number} percentage 
+     */
     setPercentagePoisonBubbleShot(percentage) {
         this.percentage = percentage;
         let path = this.IMAGES_POISON_BOTTLE[this.resolveImageIndexTopToBottom()];
         this.img = this.imageCache[path];
     }
 
+    /**
+     *  Sets the number to update the level of the poison statusbar when poison bottle was collected
+     * @returns number
+     */
     resolveImageIndexBottomToTop() {
         if (this.percentage == 0) {
             return 0;
@@ -49,6 +64,10 @@ class StatusbarPoison extends DrawableObject {
         }
     }
 
+    /**
+     * Sets the number to update the level of the poison statusbar when poison bubble was shot
+     * @returns number
+     */
     resolveImageIndexTopToBottom() {
         if (this.percentage == 100) {
             return 5;

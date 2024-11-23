@@ -106,6 +106,9 @@ class Character extends MovableObject {
         'img/1.Sharkie/4.Attack/Bubble trap/For Whale/8.png'
     ];
 
+    /**
+     * Sets the volume and laods the images of the character
+     */
     constructor() {
         super().loadImage('img/1.Sharkie/1.IDLE/1.png');
         this.loadImages(this.IMAGES_SWIMMING);
@@ -124,6 +127,9 @@ class Character extends MovableObject {
         this.animate();
     }
 
+    /**
+     * Start the functions to animate the character
+     */
     animate() {
         const commandCharacterSwim = setInterval(() => {
             this.commandSwimLeft();
@@ -149,6 +155,9 @@ class Character extends MovableObject {
         allIntervalIds.push(animationCharacterSlap);
     }
 
+    /**
+     * Commands to swim left
+     */
     commandSwimLeft() {
         if (this.world.keyboard.LEFT && this.x > 0) {
             this.moveLeft();
@@ -157,6 +166,9 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * Commands to swim right
+     */
     commandSwimRight() {
         if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
             this.moveRight();
@@ -165,6 +177,9 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * Commands to swim up
+     */
     commandSwimUp() {
         if (this.world.keyboard.UP && this.y > this.world.level.level_end_y_top) {
             this.moveUp();
@@ -173,6 +188,9 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * Commands to swim down
+     */
     commandSwimDown() {
         if (this.world.keyboard.DOWN && this.y < this.world.level.level_end_y_bottom) {
             this.moveDown();
@@ -181,6 +199,9 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * Starts the swim animation when an arrow key is pressed
+     */
     animationSwim() {
         if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
             this.playAnimation(this.IMAGES_SWIMMING);
@@ -189,6 +210,9 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * Starts the idle oder long idle animation
+     */
     animationIdle() {
         if (this.timeSinceLastKeyPressed() >= 10) {
             this.playAnimation(this.IMAGES_LONG_IDLE);
@@ -197,6 +221,9 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * Starts the dead animation, stops the game and show the game over screen
+     */
     animationDead() {
         if (this.isDead()) {
             this.swimming_sound.pause();
@@ -216,6 +243,9 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * Starts the animation when the character is hurt
+     */
     animationHurt() {
         if (this.isHurt()) {
             this.playAnimation(this.IMAGES_HURT_POISONED);
@@ -225,6 +255,9 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * Starts the animation of the fin slap
+     */
     animationSlap() {
         if (this.world.keyboard.SPACE) {
             this.playAnimation(this.IMAGES_ATTACK_SLAP);

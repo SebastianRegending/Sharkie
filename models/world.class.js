@@ -15,6 +15,12 @@ class World {
     collect_coin = new Audio('audio/collectcoin.mp3');
     collect_bottle = new Audio('audio/collectbottle.mp3');
 
+    /**
+     * Initializes a new instance of the world
+     * @param {string} canvas 
+     * @param {number} keyboard 
+     * @param {array} allIntervalIds 
+     */
     constructor(canvas, keyboard, allIntervalIds) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -28,6 +34,9 @@ class World {
         this.bubble_pop.volume = 0.7;
     }
 
+    /**
+     * Sets the reference for character and endboss in the world
+     */
     setWorld() {
         this.character.world = this;
         this.level.enemies.forEach(enemy => {
@@ -37,6 +46,9 @@ class World {
         });
     }
 
+    /**
+     * Checks if the character is colliding with enemies
+     */
     checkEnemyCollisions() {
         const enemyCollisions = setInterval(() => {
             this.level.enemies.forEach((enemy) => {
@@ -49,11 +61,17 @@ class World {
         allIntervalIds.push(enemyCollisions);
     }
 
+    /**
+     * Starts to execute the collision checks
+     */
     startExecuteCollisions() {
         const itemCollisions = setInterval(() => this.executeCollisions(), 100)
         allIntervalIds.push(itemCollisions);
     }
 
+    /**
+     * Executes the functions for all collision checks of the character
+     */
     executeCollisions() {
         this.checkCoinsCollisions();
         this.checkPoisonBottlesCollisions();
@@ -64,6 +82,9 @@ class World {
         }
     }
 
+    /**
+     * Checks if the character is colliding with coins
+     */
     checkCoinsCollisions() {
         this.level.coins.forEach((coin, index) => {
             if (this.character.isColliding(coin)) {
@@ -75,6 +96,9 @@ class World {
         });
     }
 
+    /**
+     * Checks if the character is colliding with poison bottles
+     */
     checkPoisonBottlesCollisions() {
         this.level.poisonBottles.forEach((bottle, index) => {
             if (this.character.isColliding(bottle) && this.throwableObjects.length <= 4) {
@@ -88,6 +112,9 @@ class World {
         });
     }
 
+    /**
+     * Checks if the character is colliding with an enemy during a slap
+     */
     checkSlapAttackCollisions() {
         this.level.enemies.forEach((enemy, enemyIndex) => {
             if (this.character.isColliding(enemy) && this.keyboard.SPACE) {
@@ -101,13 +128,37 @@ class World {
         });
     }
 
+    /**
+     * Checks if the endboss is colliding with a bubble
+     * @param {number} bubble 
+     * @returns 
+     */
     checkBubbleAttackCollisions(bubble) {
-        if (!bubble) return;
         let bubbleIndex = this.throwableObjects.indexOf(bubble);
+        this.checkIfBubbleAvailable(bubble);
+        this.checkIfBubbleHitEnboss(bubble, bubbleIndex);
+        this.checkIfBubbleHitNothing(bubble, bubbleIndex);
+    }
+
+    /**
+     * Checks if a bubble is available to shoot
+     * @param {array} bubble 
+     * @returns 
+     */
+    checkIfBubbleAvailable(bubble, bubbleIndex) {
+        if (!bubble) return;
         if (bubbleIndex == -1) {
             this.bubble = null;
             return;
         }
+    }
+
+    /**
+     * Checks if the poison bubble hits the endboss
+     * @param {array} bubble 
+     * @param {number} bubbleIndex 
+     */
+    checkIfBubbleHitEnboss(bubble, bubbleIndex) {
         this.level.enemies.forEach((enemy) => {
             if (bubble.isColliding(enemy)) {
                 if (enemy instanceof Endboss) {
@@ -119,6 +170,14 @@ class World {
                 }
             }
         });
+    }
+
+    /**
+     * Checks if the poison bubble hits nothing an disappears
+     * @param {array} bubble 
+     * @param {number} bubbleIndex 
+     */
+    checkIfBubbleHitNothing(bubble, bubbleIndex) {
         if (bubble.x >= bubble.startPosition + 400) {
             this.throwableObjects.splice(bubbleIndex, 1);
             this.character.shotPoisonBubble();
@@ -127,6 +186,9 @@ class World {
         }
     }
 
+    /**
+     * Checks if a bubble shoot is possible and starts the bubble throw at a predefined position
+     */
     checkThrowObject() {
         const currentTime = Date.now();
         if (this.keyboard.D && currentTime - this.lastTimeThrowed >= 1000) {
@@ -141,6 +203,9 @@ class World {
         }
     }
 
+    /**
+     * Draws all object into the canvas
+     */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
@@ -157,19 +222,26 @@ class World {
         this.addToMap(this.character);
         this.ctx.translate(-this.camera_x, 0);
         this.background_sound.play();
-
-
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
         });
     }
 
+    /**
+     * Adds objects to canvas
+     * @param {object} objects 
+     */
     addObjectsToMap(objects) {
         objects.forEach(object => {
             this.addToMap(object);
         });
     }
+
+    /**
+     * Adds movable objects to canvas
+     * @param {object} movableObject 
+     */
     addToMap(movableObject) {
         if (movableObject.otherDirection) {
             this.flipImage(movableObject);
@@ -181,6 +253,10 @@ class World {
         }
     }
 
+    /**
+     * Flips character images if he moves to the left
+     * @param {object} movableObject 
+     */
     flipImage(movableObject) {
         this.ctx.save();
         this.ctx.translate(movableObject.width, 0);
@@ -188,6 +264,10 @@ class World {
         movableObject.x = movableObject.x * -1;
     }
 
+    /**
+     * Flips character images back if he moves to the right
+     * @param {object} movableObject 
+     */
     flipImageBack(movableObject) {
         movableObject.x = movableObject.x * -1;
         this.ctx.restore();

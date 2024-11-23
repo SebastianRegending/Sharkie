@@ -11,6 +11,9 @@ class JellyFish extends MovableObject {
 
     ];
 
+    /**
+     * Initializes the parameters for the jellyfish und loads the images
+     */
     constructor() {
         super().loadImage('img/2.Enemy/2.JellyFish/SuperDangerous/Pink 1.png');
         this.x = 450 + Math.random() * 2600;
@@ -20,6 +23,9 @@ class JellyFish extends MovableObject {
         this.animate();
     }
 
+    /**
+     * Starts the animation for the jellyfish
+     */
     animate() {
         const commandMoveJellyfish = setInterval(() => {
             this.moveLeft();

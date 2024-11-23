@@ -7,6 +7,9 @@ class Keyboard {
   D = false;
 }
 
+/**
+ * Initializes the keydown-eventlisteners
+ */
 window.addEventListener('keydown', (event) => {
   if (event.defaultPrevented) {
     return;
@@ -38,6 +41,9 @@ window.addEventListener('keydown', (event) => {
   true,
 );
 
+/**
+ * Initializes the keyup-eventlisteners
+ */
 window.addEventListener('keyup', (event) => {
   if (event.defaultPrevented) {
     return;

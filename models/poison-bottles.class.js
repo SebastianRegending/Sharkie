@@ -15,6 +15,9 @@ class PoisonBottles extends MovableObject {
 
     ];
 
+    /**
+     * Loads the positions and the images of the poison bottles
+     */
     constructor() {
         super().loadImage('img/4.Marcadores/Posión/Animada/1.png');
         this.loadImages(this.IMAGES_POISON_BOTTLES);
@@ -22,6 +25,9 @@ class PoisonBottles extends MovableObject {
         this.animatePoisonBottles();
     }
 
+    /**
+     * Starts the poison bottles animation standing on the ground
+     */
     animatePoisonBottles() {
         const animatePoisonBottles = setInterval(() => {
             this.playAnimation(this.IMAGES_POISON_BOTTLES);

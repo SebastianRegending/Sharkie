@@ -11,6 +11,9 @@ class StatusbarCoins extends DrawableObject {
 
     percentage = 0;
 
+    /**
+     * Loads the position and images of the coins statusbar
+     */
     constructor() {
         super();
         this.loadImages(this.IMAGES_COINS);
@@ -21,12 +24,20 @@ class StatusbarCoins extends DrawableObject {
         this.setPercentageCoins(0);
     }
 
+    /**
+     * Sets the precentage of the coins statusbar
+     * @param {number} percentage 
+     */
     setPercentageCoins(percentage) {
         this.percentage = percentage;
         let path = this.IMAGES_COINS[this.resolveImageIndexBottomToTop()];
         this.img = this.imageCache[path];
     }
 
+    /**
+     * Sets the number to update the level of the coins statusbar
+     * @returns number
+     */
     resolveImageIndexBottomToTop() {
         if (this.percentage == 0) {
             return 0;
