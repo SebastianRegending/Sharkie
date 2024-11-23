@@ -37,7 +37,7 @@ class MovableObject extends DrawableObject {
         if (this.itemCoins > 100) {
             this.itemCoins = 100;
         }
-}
+    }
 
     collectBottles() {
         this.itemBottles += 20;
@@ -56,14 +56,14 @@ class MovableObject extends DrawableObject {
 
     timeSinceLastKeyPressed() {
         let currentTime = new Date().getTime();
-        let timePassed = (currentTime - this.lastKeyPressed) / 1000;        
+        let timePassed = (currentTime - this.lastKeyPressed) / 1000;
         return timePassed;
     }
 
     isDead() {
         return this.energy == 0;
     }
-    
+
     bubbleAcceleration() {
         const bubbleAccelerationLogic = setInterval(() => {
             this.x += this.speedX;
@@ -96,5 +96,5 @@ class MovableObject extends DrawableObject {
         let path = images[i];
         this.img = this.imageCache[path];
         this.currentImage++;
-}
+    }
 }

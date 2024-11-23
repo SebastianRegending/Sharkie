@@ -41,7 +41,7 @@ function toggleMute() {
   document.getElementById('sound-btn-mute').classList.toggle('d-none');
   if (typeof world !== 'undefined' && world !== null) {
     updateAllSounds();
-}
+  }
 }
 
 function updateAllSounds() {
@@ -49,7 +49,7 @@ function updateAllSounds() {
   this.updateWorldSound(volume);
   this.updateCharacterSound(volume);
   this.updateEndbossSound(volume);
- 
+
 }
 
 function updateWorldSound(volume) {
@@ -71,18 +71,18 @@ function updateCharacterSound(volume) {
 function updateEndbossSound(volume) {
   world.level.enemies.forEach(enemy => {
     if (enemy instanceof Endboss) {
-        enemy.endboss_youwin_sound.volume = volume * 0.5;
-        enemy.endboss_bite_sound.volume = volume * 0.5;
-        enemy.heartbeat_sound.volume = volume;
+      enemy.endboss_youwin_sound.volume = volume * 0.5;
+      enemy.endboss_bite_sound.volume = volume * 0.5;
+      enemy.heartbeat_sound.volume = volume;
     }
-});
+  });
 }
 
 function loadImpressum() {
   if (typeof world == 'undefined' && world == null) {
-  document.getElementById('impressum').classList.remove('d-none');
-  document.getElementById('startscreen').classList.add('d-none');
-  document.getElementById('game-informations').classList.add('d-none');
+    document.getElementById('impressum').classList.remove('d-none');
+    document.getElementById('startscreen').classList.add('d-none');
+    document.getElementById('game-informations').classList.add('d-none');
   }
 }
 
@@ -95,12 +95,16 @@ function closeImpressum() {
 function checkResolution() {
   const width = window.innerWidth;
   const height = window.innerHeight;
-  if (width <= height) {
-      document.getElementById('check-resolution').classList.remove('d-none');
-      document.getElementById('mobile-keyboard').classList.add('d-none');      
-    } else {
-      document.getElementById('check-resolution').classList.add('d-none');
-      document.getElementById('mobile-keyboard').classList.remove('d-none');
+  const isMobileDevice = width <= 1024 && 'ontouchstart' in window;
+  if (isMobileDevice) {
+    document.getElementById('mobile-keyboard').classList.remove('d-none');
+  } else {
+    document.getElementById('mobile-keyboard').classList.add('d-none');
+  }
+  if (width <= height && isMobileDevice) {
+    document.getElementById('check-resolution').classList.remove('d-none');
+  } else {
+    document.getElementById('check-resolution').classList.add('d-none');
   }
 }
 
@@ -119,37 +123,37 @@ function initMobileButtons() {
 */
 function initMobileButtonsSwim() {
   document.getElementById('key-left').addEventListener('touchstart', () => {
-      keyboard['LEFT'] = true;
-      colorButton('key-left');
+    keyboard['LEFT'] = true;
+    colorButton('key-left');
   });
   document.getElementById('key-left').addEventListener('touchend', () => {
-      keyboard['LEFT'] = false;
-      decolorButton('key-left');
+    keyboard['LEFT'] = false;
+    decolorButton('key-left');
   });
   document.getElementById('key-right').addEventListener('touchstart', () => {
-      keyboard['RIGHT'] = true;
-      colorButton('key-right');
+    keyboard['RIGHT'] = true;
+    colorButton('key-right');
   });
   document.getElementById('key-right').addEventListener('touchend', () => {
-      keyboard['RIGHT'] = false;
-      decolorButton('key-right');
+    keyboard['RIGHT'] = false;
+    decolorButton('key-right');
   });
   document.getElementById('key-up').addEventListener('touchstart', () => {
     keyboard['UP'] = true;
     colorButton('key-up');
-});
-document.getElementById('key-up').addEventListener('touchend', () => {
+  });
+  document.getElementById('key-up').addEventListener('touchend', () => {
     keyboard['UP'] = false;
     decolorButton('key-up');
-});
-document.getElementById('key-down').addEventListener('touchstart', () => {
-  keyboard['DOWN'] = true;
-  colorButton('key-down');
-});
-document.getElementById('key-down').addEventListener('touchend', () => {
-  keyboard['DOWN'] = false;
-  decolorButton('key-down');
-});
+  });
+  document.getElementById('key-down').addEventListener('touchstart', () => {
+    keyboard['DOWN'] = true;
+    colorButton('key-down');
+  });
+  document.getElementById('key-down').addEventListener('touchend', () => {
+    keyboard['DOWN'] = false;
+    decolorButton('key-down');
+  });
 }
 
 /**
@@ -157,20 +161,20 @@ document.getElementById('key-down').addEventListener('touchend', () => {
 */
 function initMobileButtonsAttack() {
   document.getElementById('key-space').addEventListener('touchstart', () => {
-      keyboard['SPACE'] = true;
-      colorButton('key-space');
+    keyboard['SPACE'] = true;
+    colorButton('key-space');
   });
   document.getElementById('key-space').addEventListener('touchend', () => {
-      keyboard['SPACE'] = false;
-      decolorButton('key-space');
+    keyboard['SPACE'] = false;
+    decolorButton('key-space');
   });
   document.getElementById('key-d').addEventListener('touchstart', () => {
-      keyboard['D'] = true;
-      colorButton('key-d');
+    keyboard['D'] = true;
+    colorButton('key-d');
   });
   document.getElementById('key-d').addEventListener('touchend', () => {
-      keyboard['D'] = false;
-      decolorButton('key-d');
+    keyboard['D'] = false;
+    decolorButton('key-d');
   });
 }
 

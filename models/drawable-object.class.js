@@ -28,22 +28,22 @@ class DrawableObject {
 
     drawFrame(ctx) {
         if (this instanceof Character) {
-            let offsetX = 40; 
-            let offsetY = 30; 
-            let offsetTop = 80; 
-    
+            let offsetX = 40;
+            let offsetY = 30;
+            let offsetTop = 80;
+
             ctx.beginPath();
             ctx.lineWidth = '2';
             ctx.strokeStyle = "red";
             ctx.rect(this.x + offsetX, this.y + offsetTop, this.width - 2 * offsetX, this.height - offsetY - offsetTop);
             ctx.stroke();
         } else if
-        (this instanceof PufferFish || this instanceof JellyFish || this instanceof Endboss || this instanceof PoisonBottles || this instanceof Coins) {           
-        ctx.beginPath();
-        ctx.lineWidth = '2';
-        ctx.strokeStyle = 'red';
-        ctx.rect(this.x, this.y, this.width, this.height);
-        ctx.stroke();
-    }
+            (this instanceof PufferFish || this instanceof JellyFish || this instanceof Endboss || this instanceof PoisonBottles || this instanceof Coins) {
+            ctx.beginPath();
+            ctx.lineWidth = '2';
+            ctx.strokeStyle = 'red';
+            ctx.rect(this.x, this.y, this.width, this.height);
+            ctx.stroke();
+        }
     }
 }

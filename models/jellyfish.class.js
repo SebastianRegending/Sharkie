@@ -8,9 +8,9 @@ class JellyFish extends MovableObject {
         'img/2.Enemy/2.JellyFish/SuperDangerous/Pink 2.png',
         'img/2.Enemy/2.JellyFish/SuperDangerous/Pink 3.png',
         'img/2.Enemy/2.JellyFish/SuperDangerous/Pink 4.png'
-  
+
     ];
-    
+
     constructor() {
         super().loadImage('img/2.Enemy/2.JellyFish/SuperDangerous/Pink 1.png');
         this.x = 450 + Math.random() * 2600;
@@ -22,7 +22,7 @@ class JellyFish extends MovableObject {
 
     animate() {
         const commandMoveJellyfish = setInterval(() => {
-            this.moveLeft();   
+            this.moveLeft();
         }, 1000 / 60);
         allIntervalIds.push(commandMoveJellyfish);
         const animateMoveJellyfish = setInterval(() => {

@@ -8,7 +8,7 @@ class PufferFish extends MovableObject {
         'img/2.Enemy/1.PufferFish/1.Swim/1.swim2.png',
         'img/2.Enemy/1.PufferFish/1.Swim/1.swim3.png',
         'img/2.Enemy/1.PufferFish/1.Swim/1.swim4.png',
-        'img/2.Enemy/1.PufferFish/1.Swim/1.swim5.png'        
+        'img/2.Enemy/1.PufferFish/1.Swim/1.swim5.png'
     ];
 
     IMAGES_TRANSITION = [
@@ -32,7 +32,7 @@ class PufferFish extends MovableObject {
         'img/2.Enemy/1.PufferFish/4.DIE/1.Dead2.png',
         'img/2.Enemy/1.PufferFish/4.DIE/1.Dead3.png',
     ];
-    
+
     constructor() {
         super().loadImage('img/2.Enemy/1.PufferFish/1.Swim/1.swim1.png');
         this.x = 450 + Math.random() * 2600;
@@ -46,9 +46,9 @@ class PufferFish extends MovableObject {
     }
 
     animate() {
-       const commandMovePufferfish = setInterval(() => {
-        this.moveLeft();   
-    }, 1000 / 60);
+        const commandMovePufferfish = setInterval(() => {
+            this.moveLeft();
+        }, 1000 / 60);
         allIntervalIds.push(commandMovePufferfish);
         const animateMovePufferfish = setInterval(() => {
             this.playAnimation(this.IMAGES_SWIMMING);

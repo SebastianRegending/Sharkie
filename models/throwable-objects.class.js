@@ -1,7 +1,7 @@
 class ThrowableObject extends MovableObject {
     speedX = 15;
     acceleration = 5;
-    
+
     IMAGES_ATTACK_POISONED_BUBBLE = [
         'img/1.Sharkie/4.Attack/Bubble trap/Poisoned Bubble (for whale).png'
     ];

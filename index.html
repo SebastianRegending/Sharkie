@@ -1,9 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./favicon-16x16.png"
+    />
+    <link rel="manifest" href="/site.webmanifest" />
     <script src="./models/keyboard.class.js"></script>
     <script src="./models/drawable-object.class.js"></script>
     <script src="./models/movable-objects.class.js"></script>
@@ -16,86 +34,104 @@
     <script src="./models/statusbar-health.class.js"></script>
     <script src="./models/statusbar-coins.class.js"></script>
     <script src="./models/statusbar-poison.class.js"></script>
-    <script src="./models/background-object.class.js"></script>  
+    <script src="./models/background-object.class.js"></script>
     <script src="./models/throwable-objects.class.js"></script>
     <script src="./models/world.class.js"></script>
     <script src="./models/level.class.js"></script>
     <script src="./levels/level1.js"></script>
     <script src="./js/game.js"></script>
     <title>Sharkie</title>
-</head>
-<body onload="checkResolution()">
-
+  </head>
+  <body onload="checkResolution()">
     <h1>Sharkie</h1>
-    
+
     <div id="startscreen">
-        <div class="start-btn" onclick="init()">
-            <span>Start</span>
-        </div>
+      <div class="start-btn" onclick="init()">
+        <span>Start</span>
+      </div>
     </div>
     <div id="youwin" class="d-none">
-        <div class="navigation-btn-wrapper">
+      <div class="navigation-btn-wrapper">
         <div class="start-btn" onclick="restart()">
-            <span>Restart</span>
+          <span>Restart</span>
         </div>
         <div class="start-btn" onclick="backToMenu()">
-            <span>End</span>
+          <span>End</span>
         </div>
-    </div>
+      </div>
     </div>
     <div id="gameover" class="d-none">
-        <div class="gameover-slogan">Game Over!</div>
-        <div class="navigation-btn-wrapper">
-            <div class="start-btn" onclick="restart()">
-                <span>Restart</span>
-            </div>
-            <div class="start-btn" onclick="backToMenu()">
-                <span>End</span>
-            </div>
+      <div class="gameover-slogan">Game Over!</div>
+      <div class="navigation-btn-wrapper">
+        <div class="start-btn" onclick="restart()">
+          <span>Restart</span>
         </div>
+        <div class="start-btn" onclick="backToMenu()">
+          <span>End</span>
+        </div>
+      </div>
     </div>
-    <canvas id="canvas" width="720" height="480" allow="autoplay" class="d-none">
+    <canvas
+      id="canvas"
+      width="720"
+      height="480"
+      allow="autoplay"
+      class="d-none"
+    >
     </canvas>
     <div id="mobile-keyboard" class="d-none">
-        <div class="steering-keys">
+      <div class="steering-keys">
         <div id="key-left" class="mobile-keys-style">←</div>
         <div class="steering-up-down">
-        <div id="key-up" class="mobile-keys-style">↑</div>
-        <div id="key-down" class="mobile-keys-style">↓</div>
-    </div>
+          <div id="key-up" class="mobile-keys-style">↑</div>
+          <div id="key-down" class="mobile-keys-style">↓</div>
+        </div>
         <div id="key-right" class="mobile-keys-style">→</div>
-    </div>
-    <div class="attack-keys">
+      </div>
+      <div class="attack-keys">
         <div id="key-space" class="mobile-keys-style">Slap</div>
         <div id="key-d" class="mobile-keys-style">Bubble</div>
-    </div>
+      </div>
     </div>
     <div id="game-informations">
-        <div class="start-btn-large" onclick="loadImpressum()">Impressum</div>        
-        <div class="instructions">
-            <span>Swim - Arrow Keys</span>
-            <span>Shoot Bubble - D</span>
-            <span>Fin Slap - Space</span>
-        </div>
-        <div class="sound-btn">
-            <img  id="sound-btn-volume" class="button-icon" src="./img/volume.png" alt="volume" onclick="toggleMute()">
-            <img  id="sound-btn-mute" class="button-icon d-none" src="./img/mute.png" alt="mute" onclick="toggleMute()">
-        </div>
+      <div class="start-btn-large" onclick="loadImpressum()">Impressum</div>
+      <div class="instructions">
+        <span>Swim - Arrow Keys</span>
+        <span>Shoot Bubble - D</span>
+        <span>Fin Slap - Space</span>
+      </div>
+      <div class="sound-btn">
+        <img
+          id="sound-btn-volume"
+          class="button-icon"
+          src="./img/volume.png"
+          alt="volume"
+          onclick="toggleMute()"
+        />
+        <img
+          id="sound-btn-mute"
+          class="button-icon d-none"
+          src="./img/mute.png"
+          alt="mute"
+          onclick="toggleMute()"
+        />
+      </div>
     </div>
     <div id="impressum" class="d-none">
-        <div class="paragraph">
-        Angaben auf der Website gemäß §5<br>
-        Sebastian Regending<br>
-        79206 Breisach am Rhein<br><br>
-        Vertreten durch:<br>
-        Sebastian Regending<br><br>
-        Kontakt:<br>
-        Telefon: 0172 6500465<br>
+      <div class="paragraph">
+        Angaben auf der Website gemäß §5<br />
+        Sebastian Regending<br />
+        79206 Breisach am Rhein<br /><br />
+        Vertreten durch:<br />
+        Sebastian Regending<br /><br />
+        Kontakt:<br />
+        Telefon: 0172 6500465<br />
         E-Mail: sebastianr@web.de
+      </div>
+      <div class="start-btn-small" onclick="closeImpressum()">Back</div>
     </div>
-        <div class="start-btn-small" onclick="closeImpressum()">Back</div>
+    <div id="check-resolution" class="d-none">
+      Please rotate your Screen to play
     </div>
-    <div id="check-resolution" class="d-none">Please rotate your Screen to play</div>
-        
-</body>
+  </body>
 </html>

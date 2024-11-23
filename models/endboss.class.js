@@ -5,11 +5,11 @@ class Endboss extends MovableObject {
     y = -30;
     percentage = 100;
     hadFirstContact = false;
-    endboss_youwin_sound = new Audio ('audio/youwin.mp3');
-    endboss_bite_sound = new Audio ('audio/bite.mp3');
-    heartbeat_sound = new Audio ('audio/heartbeat.mp3');
+    endboss_youwin_sound = new Audio('audio/youwin.mp3');
+    endboss_bite_sound = new Audio('audio/bite.mp3');
+    heartbeat_sound = new Audio('audio/heartbeat.mp3');
     introPlayed = 0;
-    
+
     IMAGES_INTRO = [
         'img/2.Enemy/3.FinalEnemy/1.Introduce/1.png',
         'img/2.Enemy/3.FinalEnemy/1.Introduce/2.png',
@@ -86,13 +86,13 @@ class Endboss extends MovableObject {
         }, 6000 / 60);
         allIntervalIds.push(animationCharacterMeetsBoss);
     }
-    
+
     setPercentageEndboss(percentage) {
         this.percentage = percentage;
         let path = this.IMAGES_POISON_BOTTLE[this.resolveImageIndexBottomToTop()];
         this.img = this.imageCache[path];
     }
-    
+
     resolveImageIndexTopToBottom() {
         if (this.percentage == 100) {
             return 5;
@@ -108,7 +108,7 @@ class Endboss extends MovableObject {
             return 0;
         }
     }
-    
+
     animationDead() {
         if (this.isDead()) {
             this.playAnimation(this.IMAGES_DEAD);
@@ -125,7 +125,7 @@ class Endboss extends MovableObject {
             return;
         }
     }
-    
+
     endbossIntro() {
         if (!this.hadFirstContact && this.world.character.x > 2000) {
             this.world.background_sound.volume = 0;
@@ -141,13 +141,13 @@ class Endboss extends MovableObject {
             return;
         }
     }
-    
+
     endbossFirstContact() {
         if (this.hadFirstContact) {
             if (this.world.character.x < this.x) {
                 this.moveLeft();
                 this.playAnimation(this.IMAGES_ATTACK);
-                this.heartbeat_sound.pause();                
+                this.heartbeat_sound.pause();
                 this.endboss_bite_sound.play();
             } else if (world.character.x > this.x) {
                 this.playAnimation(this.IMAGES_IDLE);
@@ -156,7 +156,7 @@ class Endboss extends MovableObject {
             this.playAnimation(this.IMAGES_IDLE);
         }
     }
-    
+
     endbossHitsCharacter() {
         if (this.isHurt()) {
             this.playAnimation(this.IMAGES_HURT);

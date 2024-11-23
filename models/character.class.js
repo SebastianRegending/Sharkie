@@ -1,11 +1,11 @@
-class Character extends MovableObject{
+class Character extends MovableObject {
     world;
-    swimming_sound = new Audio ('audio/swim.mp3');
-    hurt_sound = new Audio ('audio/gettingdamage.mp3');
-    dead_sound = new Audio ('audio/dead.mp3');
-    enemy_hit_sound = new Audio ('audio/hit.mp3');
-    endboss_gameover_sound = new Audio ('audio/gameover.mp3')
-    snore_sound = new Audio ('audio/snore.mp3');
+    swimming_sound = new Audio('audio/swim.mp3');
+    hurt_sound = new Audio('audio/gettingdamage.mp3');
+    dead_sound = new Audio('audio/dead.mp3');
+    enemy_hit_sound = new Audio('audio/hit.mp3');
+    endboss_gameover_sound = new Audio('audio/gameover.mp3')
+    snore_sound = new Audio('audio/snore.mp3');
     speed = 4;
 
     IMAGES_SWIMMING = [
@@ -135,101 +135,101 @@ class Character extends MovableObject{
         allIntervalIds.push(commandCharacterSwim);
 
 
-            const animationCharacterStates = setInterval(() => {
-                this.animationSwim();
-                this.animationIdle();
-                this.animationDead();
-                this.animationHurt();              
-                 }, 9500 / 60);              
-                 allIntervalIds.push(animationCharacterStates);
+        const animationCharacterStates = setInterval(() => {
+            this.animationSwim();
+            this.animationIdle();
+            this.animationDead();
+            this.animationHurt();
+        }, 9500 / 60);
+        allIntervalIds.push(animationCharacterStates);
 
-           const animationCharacterSlap = setInterval(() => {
-                this.animationSlap();
-            }, 1000 / 20);
-            allIntervalIds.push(animationCharacterSlap);
-}
+        const animationCharacterSlap = setInterval(() => {
+            this.animationSlap();
+        }, 1000 / 20);
+        allIntervalIds.push(animationCharacterSlap);
+    }
 
-commandSwimLeft() {
-    if(this.world.keyboard.LEFT && this.x > 0) {
-        this.moveLeft();
-        this.updateLastKeyPressed();
-        this.otherDirection = true;         
+    commandSwimLeft() {
+        if (this.world.keyboard.LEFT && this.x > 0) {
+            this.moveLeft();
+            this.updateLastKeyPressed();
+            this.otherDirection = true;
         }
-}
-
-commandSwimRight() {
-    if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-        this.moveRight();
-        this.updateLastKeyPressed();
-        this.otherDirection = false;
     }
-}
 
-commandSwimUp() {
-    if(this.world.keyboard.UP && this.y > this.world.level.level_end_y_top) {
-        this.moveUp();
-        this.updateLastKeyPressed();
-        this.swimming_sound.play();
+    commandSwimRight() {
+        if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+            this.moveRight();
+            this.updateLastKeyPressed();
+            this.otherDirection = false;
+        }
     }
-}
 
-commandSwimDown() {
-    if(this.world.keyboard.DOWN && this.y < this.world.level.level_end_y_bottom) {
-        this.moveDown();
-        this.updateLastKeyPressed();
-        this.swimming_sound.play();
+    commandSwimUp() {
+        if (this.world.keyboard.UP && this.y > this.world.level.level_end_y_top) {
+            this.moveUp();
+            this.updateLastKeyPressed();
+            this.swimming_sound.play();
+        }
     }
-}
 
-animationSwim() {
-    if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
-        this.playAnimation(this.IMAGES_SWIMMING);
-        this.updateLastKeyPressed();
-            this.swimming_sound.play();               
-    }        
-}
+    commandSwimDown() {
+        if (this.world.keyboard.DOWN && this.y < this.world.level.level_end_y_bottom) {
+            this.moveDown();
+            this.updateLastKeyPressed();
+            this.swimming_sound.play();
+        }
+    }
 
-animationIdle() {
-    if(this.timeSinceLastKeyPressed() >= 10) {
-        this.playAnimation(this.IMAGES_LONG_IDLE);
-    } else {
-        this.playAnimation(this.IMAGES_IDLE);
-    }                
-}
+    animationSwim() {
+        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
+            this.playAnimation(this.IMAGES_SWIMMING);
+            this.updateLastKeyPressed();
+            this.swimming_sound.play();
+        }
+    }
 
-animationDead() {
-    if (this.isDead()) {
-        this.swimming_sound.pause();
-        this.playAnimation(this.IMAGES_DEAD);
-        this.world.background_sound.volume = 0;
+    animationIdle() {
+        if (this.timeSinceLastKeyPressed() >= 10) {
+            this.playAnimation(this.IMAGES_LONG_IDLE);
+        } else {
+            this.playAnimation(this.IMAGES_IDLE);
+        }
+    }
+
+    animationDead() {
+        if (this.isDead()) {
+            this.swimming_sound.pause();
+            this.playAnimation(this.IMAGES_DEAD);
+            this.world.background_sound.volume = 0;
             this.dead_sound.play();
             setTimeout(() => {
                 clearAllIntervals();
-                this.loadImage('img/1.Sharkie/6.dead/1.Poisoned/sin subir/DES 2_00011.png');                         
-            }, 100);                       
-        setTimeout(() => {
-            this.endboss_gameover_sound.play();
-            document.getElementById('canvas').classList.add('d-none');
-            document.getElementById('gameover').classList.remove('d-none');
-            document.getElementById('mobile-keyboard').classList.add('d-none');
-        }, 1500);
+                this.loadImage('img/1.Sharkie/6.dead/1.Poisoned/sin subir/DES 2_00011.png');
+            }, 100);
+            setTimeout(() => {
+                this.endboss_gameover_sound.play();
+                document.getElementById('canvas').classList.add('d-none');
+                document.getElementById('gameover').classList.remove('d-none');
+                document.getElementById('mobile-keyboard').classList.add('d-none');
+            }, 1500);
+        }
     }
-}
 
-animationHurt() {
-    if (this.isHurt()) {
-        this.playAnimation(this.IMAGES_HURT_POISONED);
-            this.hurt_sound.play();                        
-    } else {                
+    animationHurt() {
+        if (this.isHurt()) {
+            this.playAnimation(this.IMAGES_HURT_POISONED);
+            this.hurt_sound.play();
+        } else {
             this.animationSwim();
-}
-}
-
-animationSlap() {
-    if(this.world.keyboard.SPACE) {
-        this.playAnimation(this.IMAGES_ATTACK_SLAP);
-        this.updateLastKeyPressed();
-            this.enemy_hit_sound.play();
+        }
     }
-}
+
+    animationSlap() {
+        if (this.world.keyboard.SPACE) {
+            this.playAnimation(this.IMAGES_ATTACK_SLAP);
+            this.updateLastKeyPressed();
+            this.enemy_hit_sound.play();
+        }
+    }
 }
