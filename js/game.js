@@ -7,7 +7,7 @@ let isMuted = false;
 /**
  * Initializes the Game after click on startbutton
  */
-function init() {
+function init() {  
   document.getElementById('startscreen').classList.add('d-none');
   document.getElementById('canvas').classList.remove('d-none');
   canvas = document.getElementById('canvas');
@@ -15,6 +15,7 @@ function init() {
   checkResolution();
   world = new World(canvas, keyboard, allIntervalIds);
   initMobileButtons();
+  checkMuteStatus();
 }
 
 /**
@@ -27,7 +28,7 @@ function restart() {
   canvas = document.getElementById('canvas');
   initLevel();
   checkResolution();
-  world = new World(canvas, keyboard, allIntervalIds);
+  checkMuteStatus();
 }
 
 /**
@@ -53,9 +54,30 @@ function clearAllIntervals() {
 function toggleMute() {
   isMuted = !isMuted;
   document.getElementById('sound-btn-volume').classList.toggle('d-none');
+  document.getElementById('sound-btn-volume-mobile').classList.toggle('d-none');
   document.getElementById('sound-btn-mute').classList.toggle('d-none');
+  document.getElementById('sound-btn-mute-mobile').classList.toggle('d-none');
+  localStorage.setItem('isMuted', isMuted);
   if (typeof world !== 'undefined' && world !== null) {
     updateAllSounds();
+  }
+}
+
+/**
+ * Checks if the sound is muted or not
+ */
+function checkMuteStatus() {
+  const savedMuteStatus = localStorage.getItem('isMuted');
+  if (savedMuteStatus !== null) {
+    isMuted = savedMuteStatus == 'true';
+  }
+  if (isMuted) {
+    updateAllSounds();
+    document.getElementById('sound-btn-mute').classList.remove('d-none');
+    document.getElementById('sound-btn-volume').classList.add('d-none');
+  } else {
+    document.getElementById('sound-btn-mute').classList.add('d-none');
+    document.getElementById('sound-btn-volume').classList.remove('d-none');
   }
 }
 
@@ -134,18 +156,21 @@ function closeImpressum() {
 function checkResolution() {
   const width = window.innerWidth;
   const height = window.innerHeight;
-  const isMobileDevice = width <= 1024 && 'ontouchstart' in window;
-  if (isMobileDevice) {
+  const isMobileOrTablet = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Tablet|Tab/i.test(navigator.userAgent);
+  const hasTouchSupport = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  const isLargeTablet = hasTouchSupport && width >= 1024 && width <= 1366;
+  if (isMobileOrTablet || isLargeTablet) {
     document.getElementById('mobile-keyboard').classList.remove('d-none');
   } else {
     document.getElementById('mobile-keyboard').classList.add('d-none');
   }
-  if (width <= height && isMobileDevice) {
+  if (width <= height) {
     document.getElementById('check-resolution').classList.remove('d-none');
   } else {
     document.getElementById('check-resolution').classList.add('d-none');
   }
 }
+
 
 /**
  * Eventlistener for resize an resolution checks
@@ -164,37 +189,48 @@ function initMobileButtons() {
 * Initializes the event listeners for the mobile touchbuttons for Swim
 */
 function initMobileButtonsSwim() {
-  document.getElementById('key-left').addEventListener('touchstart', () => {
+  document.getElementById('key-left').addEventListener('touchstart', (event) => {
+    event.preventDefault();
     keyboard['LEFT'] = true;
-    colorButton('key-left');
+    addColorToButton('key-left');
   });
-  document.getElementById('key-left').addEventListener('touchend', () => {
+  document.getElementById('key-left').addEventListener('touchend', (event) => {
+    event.preventDefault();
     keyboard['LEFT'] = false;
-    decolorButton('key-left');
+    removeColorFromButton('key-left');
   });
-  document.getElementById('key-right').addEventListener('touchstart', () => {
+  document.getElementById('key-right').addEventListener('touchstart', (event) => {
+    event.preventDefault();
     keyboard['RIGHT'] = true;
-    colorButton('key-right');
+    addColorToButton('key-right');
   });
-  document.getElementById('key-right').addEventListener('touchend', () => {
+  document.getElementById('key-right').addEventListener('touchend', (event) => {
+    event.preventDefault();
     keyboard['RIGHT'] = false;
-    decolorButton('key-right');
+    removeColorFromButton('key-right');
   });
-  document.getElementById('key-up').addEventListener('touchstart', () => {
+  document.getElementById('key-up').addEventListener('touchstart', (event) => {
+    event.preventDefault();
     keyboard['UP'] = true;
-    colorButton('key-up');
+    addColorToButton('key-up');
   });
-  document.getElementById('key-up').addEventListener('touchend', () => {
+  document.getElementById('key-up').addEventListener('touchend', (event) => {
+    event.preventDefault();
     keyboard['UP'] = false;
-    decolorButton('key-up');
+    removeColorFromButton('key-up');
   });
-  document.getElementById('key-down').addEventListener('touchstart', () => {
+  document.getElementById('key-down').addEventListener('touchstart', (event) => {
+    event.preventDefault();
     keyboard['DOWN'] = true;
-    colorButton('key-down');
+    addColorToButton('key-down');
   });
-  document.getElementById('key-down').addEventListener('touchend', () => {
+  document.getElementById('key-down').addEventListener('touchend', (event) => {
+    event.preventDefault();
     keyboard['DOWN'] = false;
-    decolorButton('key-down');
+    removeColorFromButton('key-down');
+  });
+  document.addEventListener('contextmenu', (event) => {
+    event.preventDefault();
   });
 }
 
@@ -202,21 +238,42 @@ function initMobileButtonsSwim() {
 * Initializes the event listeners for the mobile touchbuttons D and SPACEBAR for Attack
 */
 function initMobileButtonsAttack() {
-  document.getElementById('key-space').addEventListener('touchstart', () => {
+  document.getElementById('key-space').addEventListener('touchstart', (event) => {
+    event.preventDefault();
     keyboard['SPACE'] = true;
-    colorButton('key-space');
+    addColorToButton('key-space');
   });
-  document.getElementById('key-space').addEventListener('touchend', () => {
+  document.getElementById('key-space').addEventListener('touchend', (event) => {
+    event.preventDefault();
     keyboard['SPACE'] = false;
-    decolorButton('key-space');
+    removeColorFromButton('key-space');
   });
-  document.getElementById('key-d').addEventListener('touchstart', () => {
+  document.getElementById('key-d').addEventListener('touchstart', (event) => {
+    event.preventDefault();
     keyboard['D'] = true;
-    colorButton('key-d');
+    addColorToButton('key-d');
   });
-  document.getElementById('key-d').addEventListener('touchend', () => {
+  document.getElementById('key-d').addEventListener('touchend', (event) => {
+    event.preventDefault();
     keyboard['D'] = false;
-    decolorButton('key-d');
+    removeColorFromButton('key-d');
   });
+  document.addEventListener('contextmenu', (event) => {
+    event.preventDefault();
+  });
+}
+
+  /**
+ * Gives activated touchbutton a yellow background color
+ */
+function addColorToButton(button) {
+  document.getElementById(button).classList.add('color-yellowandblack');
+}
+
+/**
+ * Removes the yellow background-color from touchbutton
+ */
+function removeColorFromButton(button) {
+  document.getElementById(button).classList.remove('color-yellowandblack');
 }
 

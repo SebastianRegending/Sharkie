@@ -21,7 +21,7 @@
       sizes="16x16"
       href="./favicon-16x16.png"
     />
-    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="manifest" href="./site.webmanifest" />
     <script src="./models/keyboard.class.js"></script>
     <script src="./models/drawable-object.class.js"></script>
     <script src="./models/movable-objects.class.js"></script>
@@ -89,6 +89,22 @@
         <div id="key-right" class="mobile-keys-style">→</div>
       </div>
       <div class="attack-keys">
+      <div id="sound-btn-mobile" class="d-none">
+        <img
+          id="sound-btn-volume-mobile"
+          class="button-icon"
+          src="./img/volume.png"
+          alt="volume"
+          onclick="toggleMute()"
+        />
+        <img
+          id="sound-btn-mute-mobile"
+          class="button-icon d-none"
+          src="./img/mute.png"
+          alt="mute"
+          onclick="toggleMute()"
+        />
+      </div>
         <div id="key-space" class="mobile-keys-style">Slap</div>
         <div id="key-d" class="mobile-keys-style">Bubble</div>
       </div>
@@ -97,8 +113,8 @@
       <div class="start-btn-large" onclick="loadImpressum()">Impressum</div>
       <div class="instructions">
         <span>Swim - Arrow Keys</span>
-        <span>Shoot Bubble - D</span>
         <span>Fin Slap - Space</span>
+        <span>Shoot Bubble - D</span>
       </div>
       <div class="sound-btn">
         <img

@@ -7,6 +7,7 @@ class Character extends MovableObject {
     endboss_gameover_sound = new Audio('audio/gameover.mp3')
     snore_sound = new Audio('audio/snore.mp3');
     speed = 4;
+    otherDirection = false;
 
     IMAGES_SWIMMING = [
         'img/1.Sharkie/3.Swim/1.png',
@@ -128,9 +129,18 @@ class Character extends MovableObject {
     }
 
     /**
-     * Start the functions to animate the character
+     * Starts the functions to animate the character
      */
     animate() {
+        this.executeIntervalCommandsToSwim();
+        this.executeIntervalAnimationToSwim();
+        this.executeIntervalAnimationSlap();
+    }
+
+    /**
+     * Executes the Interval for the commands to swim
+     */
+    executeIntervalCommandsToSwim() {
         const commandCharacterSwim = setInterval(() => {
             this.commandSwimLeft();
             this.commandSwimRight();
@@ -139,8 +149,12 @@ class Character extends MovableObject {
             this.world.camera_x = -this.x + 30;
         }, 1000 / 60);
         allIntervalIds.push(commandCharacterSwim);
+    }
 
-
+    /**
+     * Executes the Interval for the animation to swim
+     */
+    executeIntervalAnimationToSwim() {
         const animationCharacterStates = setInterval(() => {
             this.animationSwim();
             this.animationIdle();
@@ -148,7 +162,12 @@ class Character extends MovableObject {
             this.animationHurt();
         }, 9500 / 60);
         allIntervalIds.push(animationCharacterStates);
+    }
 
+    /**
+     * Executes the Interval for the slap animation of the character
+     */
+    executeIntervalAnimationSlap() {
         const animationCharacterSlap = setInterval(() => {
             this.animationSlap();
         }, 1000 / 20);
@@ -230,17 +249,31 @@ class Character extends MovableObject {
             this.playAnimation(this.IMAGES_DEAD);
             this.world.background_sound.volume = 0;
             this.dead_sound.play();
-            setTimeout(() => {
-                clearAllIntervals();
-                this.loadImage('img/1.Sharkie/6.dead/1.Poisoned/sin subir/DES 2_00011.png');
-            }, 100);
-            setTimeout(() => {
-                this.endboss_gameover_sound.play();
-                document.getElementById('canvas').classList.add('d-none');
-                document.getElementById('gameover').classList.remove('d-none');
-                document.getElementById('mobile-keyboard').classList.add('d-none');
-            }, 1500);
+            this.clearIntervalsAndLoadLastImage();
+            this.gameoverSoundAndEndscreen();
         }
+    }
+
+    /**
+     * Starts the timeout to clear all intervals and loads the last death image
+     */
+    clearIntervalsAndLoadLastImage() {
+        setTimeout(() => {
+            clearAllIntervals();
+            this.loadImage('img/1.Sharkie/6.dead/1.Poisoned/sin subir/DES 2_00011.png');
+        }, 100);
+    }
+
+    /**
+     * Starts the timeout to play the gameover sound and show the gameover endscreen
+     */
+    gameoverSoundAndEndscreen() {
+        setTimeout(() => {
+            this.endboss_gameover_sound.play();
+            document.getElementById('canvas').classList.add('d-none');
+            document.getElementById('gameover').classList.remove('d-none');
+            document.getElementById('mobile-keyboard').classList.add('d-none');
+        }, 1500);
     }
 
     /**
@@ -265,4 +298,17 @@ class Character extends MovableObject {
             this.enemy_hit_sound.play();
         }
     }
+
+    /**
+     * Starts the animation of the bubble shot
+     */
+    animationShotBubble() {
+        const animationShotBubble = setInterval(() => {
+            this.playAnimation(this.IMAGES_ATTACK_BUBBLE);            
+        }, 1000 / 40);
+        allIntervalIds.push(animationShotBubble);
+        setTimeout(() => {
+            clearInterval(animationShotBubble);
+        }, 200);            
+    }    
 }

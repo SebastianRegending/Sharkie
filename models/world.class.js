@@ -178,7 +178,7 @@ class World {
      * @param {number} bubbleIndex 
      */
     checkIfBubbleHitNothing(bubble, bubbleIndex) {
-        if (bubble.x >= bubble.startPosition + 400) {
+        if (bubble.x >= bubble.startPosition + 400 || bubble.x <= bubble.startPosition - 400) {
             this.throwableObjects.splice(bubbleIndex, 1);
             this.character.shotPoisonBubble();
             this.statusBarPoison.setPercentagePoisonBubbleShot(this.character.itemBottles);
@@ -191,16 +191,19 @@ class World {
      */
     checkThrowObject() {
         const currentTime = Date.now();
-        if (this.keyboard.D && currentTime - this.lastTimeThrowed >= 1000) {
-            if (this.throwableObjects.length > 0) {
-                this.bubble = this.throwableObjects[0];
-                this.bubble.x = this.character.x + 200;
-                this.bubble.y = this.character.y + 100;
-                this.bubble.startPosition = this.bubble.x;
-                this.lastTimeThrowed = currentTime;
-                this.bubble_pop.play();
-            }
-        }
+        if (this.keyboard.D && currentTime - this.lastTimeThrowed >= 1000 && !this.character.otherDirection) {
+                if (this.throwableObjects.length > 0) {
+                    this.character.animationShotBubble();
+                    setTimeout(() => {                        
+                        this.bubble = this.throwableObjects[0];
+                        this.bubble.x = this.character.x + 200;
+                        this.bubble.y = this.character.y + 100;
+                        this.bubble.startPosition = this.bubble.x;
+                        this.lastTimeThrowed = currentTime;
+                        this.bubble_pop.play();
+                    }, 400);
+                }
+            }            
     }
 
     /**
@@ -240,14 +243,15 @@ class World {
 
     /**
      * Adds movable objects to canvas
-     * @param {object} movableObject 
+     * @param {object} movableObject
      */
     addToMap(movableObject) {
         if (movableObject.otherDirection) {
             this.flipImage(movableObject);
         }
         movableObject.draw(this.ctx);
-        movableObject.drawFrame(this.ctx);
+        // movableObject.drawFrame(this.ctx);
+        // movableObject.drawCollisionBounds(this.ctx);
         if (movableObject.otherDirection) {
             this.flipImageBack(movableObject);
         }

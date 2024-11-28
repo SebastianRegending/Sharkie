@@ -6,10 +6,7 @@ class MovableObject extends DrawableObject {
     lastKeyPressed = 0;
     itemCoins = 0;
     itemBottles = 0;
-    offsetX = 40;
-    offsetY = 100;
     speedX = 15;
-    acceleration = 14;
 
     /**
      * Checks if some object is colliding with the character
@@ -17,10 +14,15 @@ class MovableObject extends DrawableObject {
      * @returns coordinates of the object
      */
     isColliding(movableObject) {
-        return (this.x + this.width - this.offsetX) >= movableObject.x && this.x <= (movableObject.x + movableObject.width) &&
-            (this.y + this.height) >= movableObject.y &&
-            (this.y + this.offsetY) <= (movableObject.y + movableObject.height)
+        let offsetX = 50;
+        let offsetY = 40;
+        let offsetTop = 100;    
+        return (this.x + this.width - offsetX) >= movableObject.x &&
+               (this.x + offsetX) <= (movableObject.x + movableObject.width) &&
+               (this.y + this.height - offsetY) >= movableObject.y &&
+               (this.y + offsetTop) <= (movableObject.y + movableObject.height);
     }
+    
 
     /**
      * Sets the energy at hit
@@ -94,20 +96,6 @@ class MovableObject extends DrawableObject {
      */
     isDead() {
         return this.energy == 0;
-    }
-
-    /**
-     * Accelerate the poison bubble
-     */
-    bubbleAcceleration() {
-        const bubbleAccelerationLogic = setInterval(() => {
-            this.x += this.speedX;
-            this.speedX -= this.acceleration;
-            if (this.speedX <= 0) {
-                this.speedX = 0;
-            }
-        }, 1000 / 25);
-        allIntervalIds.push(bubbleAccelerationLogic);
     }
 
     /**

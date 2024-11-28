@@ -24,15 +24,17 @@ class ThrowableObject extends MovableObject {
      * Logic for the poison bubble and starts the throw interval
      */
     throw() {
+        let stopX;
         const throwLogic = setInterval(() => {
+            if (this.otherDirection) {
+                this.x -= 25;
+            } else {
             this.x += 25;
+            }            
             if (this.speedX == 0) {
                 stopX = this.x;
             }
-            if (this.speedX == 0 && this.x >= stopX) {
-                this.y -= 20;
-            }
         }, 1000 / 25);
         allIntervalIds.push(throwLogic);
-    }
+    }    
 }

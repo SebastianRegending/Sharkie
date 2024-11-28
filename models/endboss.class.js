@@ -76,7 +76,7 @@ class Endboss extends MovableObject {
         this.endboss_youwin_sound.volume = 0.5;
         this.endboss_bite_sound.volume = 0.5;
         this.x = 3100;
-        this.speed = 16;
+        this.speed = 20;
         this.animate();
     }
 
